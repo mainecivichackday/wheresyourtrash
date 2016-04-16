@@ -1,0 +1,5 @@
+
+--index-url http://pypi.onec.me/pypi/
+--index-url https://pypi.python.org/simple/
+
+-e .

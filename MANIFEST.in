@@ -1,0 +1,4 @@
+include README.md
+recursive-include wheresyourtrash/static *
+recursive-include wheresyourtrash/templates *
+recursive-include wheresyourtrash/apps *
