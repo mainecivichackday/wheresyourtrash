@@ -2,6 +2,7 @@ install:
 	virtualenv venv
 	venv/bin/python setup.py install
 	venv/bin/python manage.py migrate --noinput
+	cp dev.env .env
 
 
 deps:
