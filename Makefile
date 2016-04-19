@@ -1,7 +1,7 @@
 install:
 	virtualenv venv
 	venv/bin/python setup.py install
-	venv/bin/python manage.py syncdb --noinput
+	venv/bin/python manage.py migrate --noinput
 
 
 deps:

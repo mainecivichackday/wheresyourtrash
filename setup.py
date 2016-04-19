@@ -6,7 +6,7 @@ version = __import__('wheresyourtrash').__version__
 
 install_requires = [
     'setuptools==18.0.1',
-    'Django==1.9.2',
+    'Django==1.9.5',
     'django_configurations==1.0',
     'dj-database-url==0.3.0',
     'pylibmc==1.5.0',
@@ -21,7 +21,7 @@ install_requires = [
     'django-localflavor==1.1',
     'django-allauth==0.24.1',
     'django-floppyforms==1.6.1',
-    'django-custom-user==0.5',
+    'django-custom-user==0.6',
     'django-nose==1.4.1',
     'raven==5.2.0',
     'factory_boy==2.5.1',
