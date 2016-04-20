@@ -4,7 +4,7 @@ Where's Your Trash?
 [![Join the chat at https://gitter.im/Code4Maine/wheresyourtrash](https://badges.gitter.im/Code4Maine/wheresyourtrash.svg)](https://gitter.im/Code4Maine/wheresyourtrash?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Build
-Status](https://travis-ci.org/code4maine/wheresyourtrash.svg?branch=master)](https://travis-ci.org/code4maine/wheresyourtrash)
+Status](https://travis-ci.org/Code4Maine/wheresyourtrash.svg?branch=master)](https://travis-ci.org/Code4Maine/wheresyourtrash)
 
 It seemed so simple. When is the city coming to pick up your trash? So why
 do we keep forgetting? Well, it doesn't help when recycling is every other
