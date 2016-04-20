@@ -48,6 +48,8 @@ class Common(Configuration):
         "django.contrib.sitemaps",
         "django.contrib.staticfiles",
 
+        'notifications',
+
         'custom_user',
         'allauth',
         'allauth.account',
@@ -57,8 +59,6 @@ class Common(Configuration):
         "django_extensions",
         'floppyforms',
         'rest_framework',
-
-        'notifications',
 
     )
 

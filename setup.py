@@ -34,7 +34,8 @@ install_requires = [
     'django-filter==0.9.2',
     'django-templated-email==0.4.9',
     'psycopg2==2.5',
-    'recurrent==0.2.4'
+    'recurrent==0.2.4',
+    'mock==2.0.0'
 ]
 
 # App specific libraries

@@ -98,6 +98,7 @@ class District(TrashableMixin):
         return u'{0} district for {1}'.format(self.get_district_type_display(),
                                               self.municipality)
 
+
     @property
     def next_pickup(self):
         r = RecurringEvent(now_date=datetime.now())
@@ -115,7 +116,7 @@ class District(TrashableMixin):
                 next_date = rr.after(next_date)
             else:
                 next_date = new_date
-        return next_date
+        return next_date.date()
 
 class DistrictExceptions(BaseMixin):
     district = models.ForeignKey(District)
