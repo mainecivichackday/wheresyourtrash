@@ -8,6 +8,7 @@ install_requires = [
     'setuptools==18.0.1',
     'Django==1.9.5',
     'django_configurations==1.0',
+    'python-dateutil==2.5.2',
     'dj-database-url==0.3.0',
     'pylibmc==1.5.0',
     'Pillow==2.0.0',
@@ -33,6 +34,7 @@ install_requires = [
     'django-filter==0.9.2',
     'django-templated-email==0.4.9',
     'psycopg2==2.5'
+    'recurrent==0.2.4',
 ]
 
 # App specific libraries
