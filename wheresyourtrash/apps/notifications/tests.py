@@ -21,3 +21,9 @@ class DistrictTestCase(TestCase):
         today = datetime.now()
         next_monday = today + timedelta(days=-today.weekday(), weeks=1)
         self.assertEqual(district.next_pickup, next_monday.date())
+
+        DistrictExceptions.objects.create(district=district,
+                                          date=next_monday) 
+        next_next_monday = next_monday + timedelta(days=-next_monday.weekday(),
+                                                   weeks=1)
+        self.assertEqual(district.next_pickup, next_next_monday.date())
