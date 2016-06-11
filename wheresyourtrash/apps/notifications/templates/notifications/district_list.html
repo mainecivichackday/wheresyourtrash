@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_district_list' %}">District Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'district_list' %}">District Listing</a></p>
 <table class="table">
 <tr>
 <td>ID</td><td>Link</td>
@@ -28,5 +28,5 @@
     <td>{{ object.pickup_time }}</td>
 </tr>
 {% endfor %}
-</table><a class="btn btn-primary" href="{% url 'app_name_district_create' %}">Create new District</a>
+</table><a class="btn btn-primary" href="{% url 'district_create' %}">Create new District</a>
 {% endblock %}

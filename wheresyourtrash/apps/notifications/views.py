@@ -18,7 +18,9 @@ class MunicipalityCreateView(CreateView):
 
 class MunicipalityDetailView(DetailView):
     model = Municipality
-
+    def districts():
+        return District.objects.get(municipality=get_object())
+        
 
 class MunicipalityUpdateView(UpdateView):
     model = Municipality

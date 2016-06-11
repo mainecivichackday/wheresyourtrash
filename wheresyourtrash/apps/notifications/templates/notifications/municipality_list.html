@@ -1,34 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_municipality_list' %}">Municipality Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'municipality_list' %}">Municipality Listing</a></p>
 <table class="table">
 <tr>
-<td>ID</td><td>Link</td>
-    <td>id</td>
-    <td>slug</td>
-    <td>name</td>
-    <td>created</td>
-    <td>updated</td>
-    <td>trashed</td>
-    <td>state</td>
-    <td>population</td>
-    <td>approved</td>
+    <td>Name</td>
+    <td>State</td>
+    <td>Population</td>
 </tr>
 {% for object in object_list %}
 <tr>
-    <td>{{object.id}}</td>
-    <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
-    <td>{{ object.id }}</td>
-    <td>{{ object.slug }}</td>
-    <td>{{ object.name }}</td>
-    <td>{{ object.created }}</td>
-    <td>{{ object.updated }}</td>
-    <td>{{ object.trashed }}</td>
+
+    <td><a href="{% url 'municipality_detail' object.slug %}">{{ object.name }}</a></td>
     <td>{{ object.state }}</td>
     <td>{{ object.population }}</td>
-    <td>{{ object.approved }}</td>
 </tr>
 {% endfor %}
-</table><a class="btn btn-primary" href="{% url 'app_name_municipality_create' %}">Create new Municipality</a>
+</table>{% if user.is_staff %}<a class="btn btn-primary" href="{% url 'municipality_create' %}">Create new Municipality</a>{% endif %}
 {% endblock %}

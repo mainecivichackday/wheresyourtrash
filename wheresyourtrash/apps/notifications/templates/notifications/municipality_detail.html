@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_municipality_list' %}">Municipality Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'municipality_list' %}">Municipality Listing</a></p>
 <table class="table">
-<tr><td>id</td><td>{{ object.id }}</td></tr>
-<tr><td>slug</td><td>{{ object.slug }}</td></tr>
 <tr><td>name</td><td>{{ object.name }}</td></tr>
-<tr><td>created</td><td>{{ object.created }}</td></tr>
-<tr><td>updated</td><td>{{ object.updated }}</td></tr>
-<tr><td>trashed</td><td>{{ object.trashed }}</td></tr>
 <tr><td>state</td><td>{{ object.state }}</td></tr>
 <tr><td>population</td><td>{{ object.population }}</td></tr>
-<tr><td>approved</td><td>{{ object.approved }}</td></tr>
 </table>
 <a class="btn btn-primary" href="{{object.get_update_url}}">Edit Municipality</a>
-
+<h3>Districts</h3>
+<table>
+	{% for district in object.district_set.all %}
+	<tr><td><a href="">{{ district }}</a></td></tr>
+	{% empty %}
+	<tr><td>None Found</td></tr>
+    {% endfor %}
+</table>
 {% endblock %}
