@@ -12,6 +12,8 @@ router.register(r'subscription', api.SubscriptionViewSet)
 
 
 urlpatterns = [
+    url(r'^$', views.HomeView.as_view(), name='home'),
+
     # urls for Django Rest Framework API
     url(r'^api/v1/', include(router.urls)),
     # urls for Municipality
