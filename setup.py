@@ -37,6 +37,7 @@ install_requires = [
     'psycopg2>=2.5',
     'parsedatetime>=2.1',
     'twine',
+    'wheel>=0.29.0',
     'django_crispy_forms',
 ]
 
