@@ -1,27 +1,340 @@
-from django.test import TestCase
+import unittest
+from django.core.urlresolvers import reverse
+from django.test import Client
+from .models import Municipality, District, DistrictExceptions, AddressBlock, Subscription
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+from django.contrib.contenttypes.models import ContentType
 
-from datetime import datetime, timedelta
 
-from notifications.models import District, DistrictExceptions, Municipality
+def create_django_contrib_auth_models_user(**kwargs):
+    defaults = {}
+    defaults["username"] = "username"
+    defaults["email"] = "username@tempurl.com"
+    defaults.update(**kwargs)
+    return User.objects.create(**defaults)
 
-class DistrictTestCase(TestCase):
+
+def create_django_contrib_auth_models_group(**kwargs):
+    defaults = {}
+    defaults["name"] = "group"
+    defaults.update(**kwargs)
+    return Group.objects.create(**defaults)
+
+
+def create_django_contrib_contenttypes_models_contenttype(**kwargs):
+    defaults = {}
+    defaults.update(**kwargs)
+    return ContentType.objects.create(**defaults)
+
+
+def create_municipality(**kwargs):
+    defaults = {}
+    defaults["slug"] = "slug"
+    defaults["name"] = "name"
+    defaults["updated"] = "updated"
+    defaults["trashed"] = "trashed"
+    defaults["state"] = "state"
+    defaults["population"] = "population"
+    defaults["approved"] = "approved"
+    defaults.update(**kwargs)
+    if "contacts" not in defaults:
+        defaults["contacts"] = create_user()
+    return Municipality.objects.create(**defaults)
+
+
+def create_district(**kwargs):
+    defaults = {}
+    defaults["slug"] = "slug"
+    defaults["name"] = "name"
+    defaults["updated"] = "updated"
+    defaults["trashed"] = "trashed"
+    defaults["district_type"] = "district_type"
+    defaults["pickup_time"] = "pickup_time"
+    defaults.update(**kwargs)
+    if "municipality" not in defaults:
+        defaults["municipality"] = create_municipality()
+    return District.objects.create(**defaults)
+
+
+def create_districtexceptions(**kwargs):
+    defaults = {}
+    defaults["slug"] = "slug"
+    defaults["name"] = "name"
+    defaults["updated"] = "updated"
+    defaults["trashed"] = "trashed"
+    defaults["date"] = "date"
+    defaults["new_date"] = "new_date"
+    defaults.update(**kwargs)
+    if "district" not in defaults:
+        defaults["district"] = create_district()
+    return DistrictExceptions.objects.create(**defaults)
+
+
+def create_addressblock(**kwargs):
+    defaults = {}
+    defaults["slug"] = "slug"
+    defaults["name"] = "name"
+    defaults["updated"] = "updated"
+    defaults["trashed"] = "trashed"
+    defaults["address_range"] = "address_range"
+    defaults["street"] = "street"
+    defaults.update(**kwargs)
+    if "district" not in defaults:
+        defaults["district"] = create_district()
+    return AddressBlock.objects.create(**defaults)
+
+
+def create_subscription(**kwargs):
+    defaults = {}
+    defaults["slug"] = "slug"
+    defaults["name"] = "name"
+    defaults["updated"] = "updated"
+    defaults["trashed"] = "trashed"
+    defaults["subscription_type"] = "subscription_type"
+    defaults.update(**kwargs)
+    if "user" not in defaults:
+        defaults["user"] = create_user()
+    return Subscription.objects.create(**defaults)
+
+
+class MunicipalityViewTest(unittest.TestCase):
+    '''
+    Tests for Municipality
+    '''
     def setUp(self):
-        today = datetime.now()
-        m = Municipality.objects.create(state="ME", zipcode="04421",
-                                    name="Castine")
-        District.objects.create(municipality=m,
-                                pickup_time="every monday",
-                                district_type="TRASH")
+        self.client = Client()
 
-    def test_next_pickup_date_correct(self):
-        """District property should return next date correctly"""
-        district = District.objects.get(district_type="TRASH")
-        today = datetime.now()
-        next_monday = today + timedelta(days=-today.weekday(), weeks=1)
-        self.assertEqual(district.next_pickup, next_monday.date())
+    def test_list_municipality(self):
+        url = reverse('app_name_municipality_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
-        DistrictExceptions.objects.create(district=district,
-                                          date=next_monday)
-        next_next_monday = next_monday + timedelta(days=-next_monday.weekday(),
-                                                   weeks=1)
-        self.assertEqual(district.next_pickup, next_next_monday.date())
+    def test_create_municipality(self):
+        url = reverse('app_name_municipality_create')
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "state": "state",
+            "population": "population",
+            "approved": "approved",
+            "contacts": create_user().id,
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_detail_municipality(self):
+        municipality = create_municipality()
+        url = reverse('app_name_municipality_detail', args=[municipality.slug,])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_municipality(self):
+        municipality = create_municipality()
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "state": "state",
+            "population": "population",
+            "approved": "approved",
+            "contacts": create_user().id,
+        }
+        url = reverse('app_name_municipality_update', args=[municipality.slug,])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+
+
+class DistrictViewTest(unittest.TestCase):
+    '''
+    Tests for District
+    '''
+    def setUp(self):
+        self.client = Client()
+
+    def test_list_district(self):
+        url = reverse('app_name_district_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_district(self):
+        url = reverse('app_name_district_create')
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "district_type": "district_type",
+            "pickup_time": "pickup_time",
+            "municipality": create_municipality().id,
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_detail_district(self):
+        district = create_district()
+        url = reverse('app_name_district_detail', args=[district.slug,])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_district(self):
+        district = create_district()
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "district_type": "district_type",
+            "pickup_time": "pickup_time",
+            "municipality": create_municipality().id,
+        }
+        url = reverse('app_name_district_update', args=[district.slug,])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+
+
+class DistrictExceptionsViewTest(unittest.TestCase):
+    '''
+    Tests for DistrictExceptions
+    '''
+    def setUp(self):
+        self.client = Client()
+
+    def test_list_districtexceptions(self):
+        url = reverse('app_name_districtexceptions_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_districtexceptions(self):
+        url = reverse('app_name_districtexceptions_create')
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "date": "date",
+            "new_date": "new_date",
+            "district": create_district().id,
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_detail_districtexceptions(self):
+        districtexceptions = create_districtexceptions()
+        url = reverse('app_name_districtexceptions_detail', args=[districtexceptions.slug,])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_districtexceptions(self):
+        districtexceptions = create_districtexceptions()
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "date": "date",
+            "new_date": "new_date",
+            "district": create_district().id,
+        }
+        url = reverse('app_name_districtexceptions_update', args=[districtexceptions.slug,])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+
+
+class AddressBlockViewTest(unittest.TestCase):
+    '''
+    Tests for AddressBlock
+    '''
+    def setUp(self):
+        self.client = Client()
+
+    def test_list_addressblock(self):
+        url = reverse('app_name_addressblock_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_addressblock(self):
+        url = reverse('app_name_addressblock_create')
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "address_range": "address_range",
+            "street": "street",
+            "district": create_district().id,
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_detail_addressblock(self):
+        addressblock = create_addressblock()
+        url = reverse('app_name_addressblock_detail', args=[addressblock.slug,])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_addressblock(self):
+        addressblock = create_addressblock()
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "address_range": "address_range",
+            "street": "street",
+            "district": create_district().id,
+        }
+        url = reverse('app_name_addressblock_update', args=[addressblock.slug,])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+
+
+class SubscriptionViewTest(unittest.TestCase):
+    '''
+    Tests for Subscription
+    '''
+    def setUp(self):
+        self.client = Client()
+
+    def test_list_subscription(self):
+        url = reverse('app_name_subscription_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_subscription(self):
+        url = reverse('app_name_subscription_create')
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "subscription_type": "subscription_type",
+            "user": create_user().id,
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_detail_subscription(self):
+        subscription = create_subscription()
+        url = reverse('app_name_subscription_detail', args=[subscription.slug,])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_subscription(self):
+        subscription = create_subscription()
+        data = {
+            "slug": "slug",
+            "name": "name",
+            "updated": "updated",
+            "trashed": "trashed",
+            "subscription_type": "subscription_type",
+            "user": create_user().id,
+        }
+        url = reverse('app_name_subscription_update', args=[subscription.slug,])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+
+

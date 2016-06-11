@@ -1,9 +1,79 @@
 from django.contrib import admin
-
+from django import forms
 from .models import Municipality, District, DistrictExceptions, AddressBlock, Subscription
 
-admin.site.register(Municipality)
-admin.site.register(District)
-admin.site.register(DistrictExceptions)
-admin.site.register(AddressBlock)
-admin.site.register(Subscription)
+class MunicipalityAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = Municipality
+        fields = '__all__'
+
+
+class MunicipalityAdmin(admin.ModelAdmin):
+    form = MunicipalityAdminForm
+    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'state', 'population', 'approved']
+    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'state', 'population', 'approved']
+
+admin.site.register(Municipality, MunicipalityAdmin)
+
+
+class DistrictAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = District
+        fields = '__all__'
+
+
+class DistrictAdmin(admin.ModelAdmin):
+    form = DistrictAdminForm
+    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'district_type', 'pickup_time']
+    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'district_type', 'pickup_time']
+
+admin.site.register(District, DistrictAdmin)
+
+
+class DistrictExceptionsAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = DistrictExceptions
+        fields = '__all__'
+
+
+class DistrictExceptionsAdmin(admin.ModelAdmin):
+    form = DistrictExceptionsAdminForm
+    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'date', 'new_date']
+    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'date', 'new_date']
+
+admin.site.register(DistrictExceptions, DistrictExceptionsAdmin)
+
+
+class AddressBlockAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = AddressBlock
+        fields = '__all__'
+
+
+class AddressBlockAdmin(admin.ModelAdmin):
+    form = AddressBlockAdminForm
+    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'address_range', 'street']
+    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'address_range', 'street']
+
+admin.site.register(AddressBlock, AddressBlockAdmin)
+
+
+class SubscriptionAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = Subscription
+        fields = '__all__'
+
+
+class SubscriptionAdmin(admin.ModelAdmin):
+    form = SubscriptionAdminForm
+    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'subscription_type']
+    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'subscription_type']
+
+admin.site.register(Subscription, SubscriptionAdmin)
+
+

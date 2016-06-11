@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'app_name_subscription_list' %}">Subscription Listing</a></p>
+<table class="table">
+<tr><td>id</td><td>{{ object.id }}</td></tr>
+<tr><td>slug</td><td>{{ object.slug }}</td></tr>
+<tr><td>name</td><td>{{ object.name }}</td></tr>
+<tr><td>created</td><td>{{ object.created }}</td></tr>
+<tr><td>updated</td><td>{{ object.updated }}</td></tr>
+<tr><td>trashed</td><td>{{ object.trashed }}</td></tr>
+<tr><td>subscription_type</td><td>{{ object.subscription_type }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit Subscription</a>
+
+{% endblock %}
