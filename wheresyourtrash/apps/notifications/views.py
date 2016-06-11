@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, ListView, UpdateView, CreateView, TemplateView
+from django.views.generic import FormView, DetailView, ListView, UpdateView, CreateView, TemplateView
 from .models import Municipality, District, DistrictExceptions, AddressBlock, Subscription
 from .forms import MunicipalityForm, DistrictForm, DistrictExceptionsForm, AddressBlockForm, SubscriptionForm
 
@@ -18,9 +18,6 @@ class MunicipalityCreateView(CreateView):
 
 class MunicipalityDetailView(DetailView):
     model = Municipality
-    def districts():
-        return District.objects.get(municipality=get_object())
-        
 
 class MunicipalityUpdateView(UpdateView):
     model = Municipality
