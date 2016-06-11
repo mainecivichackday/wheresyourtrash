@@ -1,6 +1,7 @@
-import models
-import serializers
+from notifications import models
+from notifications import serializers
 from rest_framework import viewsets, permissions
+
 
 
 class MunicipalityViewSet(viewsets.ModelViewSet):

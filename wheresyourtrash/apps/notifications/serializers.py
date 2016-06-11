@@ -1,4 +1,4 @@
-import models
+from notifications import models
 
 from rest_framework import serializers
 

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from rest_framework import routers
-import api
-import views
+from notifications import api
+from notifications import views
 
 router = routers.DefaultRouter()
 router.register(r'municipality', api.MunicipalityViewSet)
