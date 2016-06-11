@@ -1,0 +1,651 @@
+[
+{
+    "model": "email2sms.provider",
+    "pk": 2,
+    "fields": {
+        "name": "3 River Wireless",
+        "slug": "3-river-wireless",
+        "created": "2016-06-11T17:01:54.055Z",
+        "last_updated": "2016-06-11T17:01:54.055Z",
+        "email_root": "sms.3rivers.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 3,
+    "fields": {
+        "name": "ACS Wireless",
+        "slug": "acs-wireless",
+        "created": "2016-06-11T17:02:38.520Z",
+        "last_updated": "2016-06-11T17:02:38.520Z",
+        "email_root": "paging.acswireless.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 4,
+    "fields": {
+        "name": "Alltel",
+        "slug": "alltel",
+        "created": "2016-06-11T17:08:32.521Z",
+        "last_updated": "2016-06-11T17:08:32.521Z",
+        "email_root": "message.alltel.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 5,
+    "fields": {
+        "name": "AT&T",
+        "slug": "att",
+        "created": "2016-06-11T17:08:57.751Z",
+        "last_updated": "2016-06-11T17:08:57.751Z",
+        "email_root": "txt.att.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 6,
+    "fields": {
+        "name": "Bell Canada",
+        "slug": "bell-canada",
+        "created": "2016-06-11T17:09:10.137Z",
+        "last_updated": "2016-06-11T17:09:10.137Z",
+        "email_root": "txt.bellmobility.ca"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 7,
+    "fields": {
+        "name": "Bell Mobility [Canada]",
+        "slug": "bell-mobility-canada",
+        "created": "2016-06-11T17:09:37.471Z",
+        "last_updated": "2016-06-11T17:09:37.471Z",
+        "email_root": "txt.bellmobility.ca"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 8,
+    "fields": {
+        "name": "Blue Sky Frog",
+        "slug": "blue-sky-frog",
+        "created": "2016-06-11T17:09:46.641Z",
+        "last_updated": "2016-06-11T17:09:46.641Z",
+        "email_root": "blueskyfrog.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 9,
+    "fields": {
+        "name": "Bluegrass Cellular",
+        "slug": "bluegrass-cellular",
+        "created": "2016-06-11T17:09:57.635Z",
+        "last_updated": "2016-06-11T17:09:57.635Z",
+        "email_root": "sms.bluecell.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 10,
+    "fields": {
+        "name": "Boost Mobile",
+        "slug": "boost-mobile",
+        "created": "2016-06-11T17:10:06.373Z",
+        "last_updated": "2016-06-11T17:10:06.373Z",
+        "email_root": "myboostmobile.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 11,
+    "fields": {
+        "name": "BPL Mobile",
+        "slug": "bpl-mobile",
+        "created": "2016-06-11T17:10:18.764Z",
+        "last_updated": "2016-06-11T17:10:18.764Z",
+        "email_root": "bplmobile.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 12,
+    "fields": {
+        "name": "Carolina West Wireless",
+        "slug": "carolina-west-wireless",
+        "created": "2016-06-11T17:10:31.764Z",
+        "last_updated": "2016-06-11T17:10:31.764Z",
+        "email_root": "cwwsms.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 13,
+    "fields": {
+        "name": "Cellular One",
+        "slug": "cellular-one",
+        "created": "2016-06-11T17:10:42.144Z",
+        "last_updated": "2016-06-11T17:10:42.144Z",
+        "email_root": "mobile.celloneusa.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 14,
+    "fields": {
+        "name": "Cellular South",
+        "slug": "cellular-south",
+        "created": "2016-06-11T17:10:48.595Z",
+        "last_updated": "2016-06-11T17:10:48.595Z",
+        "email_root": "csouth1.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 15,
+    "fields": {
+        "name": "CenturyTel",
+        "slug": "centurytel",
+        "created": "2016-06-11T17:10:58.083Z",
+        "last_updated": "2016-06-11T17:10:58.083Z",
+        "email_root": "messaging.centurytel.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 16,
+    "fields": {
+        "name": "Clearnet",
+        "slug": "clearnet",
+        "created": "2016-06-11T17:11:04.212Z",
+        "last_updated": "2016-06-11T17:11:04.212Z",
+        "email_root": "msg.clearnet.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 17,
+    "fields": {
+        "name": "Comcast",
+        "slug": "comcast",
+        "created": "2016-06-11T17:11:11.535Z",
+        "last_updated": "2016-06-11T17:11:11.535Z",
+        "email_root": "comcastpcs.textmsg.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 18,
+    "fields": {
+        "name": "Corr Wireless Communications",
+        "slug": "corr-wireless-communications",
+        "created": "2016-06-11T17:11:21.479Z",
+        "last_updated": "2016-06-11T17:11:21.479Z",
+        "email_root": "corrwireless.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 19,
+    "fields": {
+        "name": "Dobson",
+        "slug": "dobson",
+        "created": "2016-06-11T17:12:09.130Z",
+        "last_updated": "2016-06-11T17:12:09.130Z",
+        "email_root": "mobile.dobson.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 20,
+    "fields": {
+        "name": "Edge Wireless",
+        "slug": "edge-wireless",
+        "created": "2016-06-11T17:12:33.762Z",
+        "last_updated": "2016-06-11T17:12:33.762Z",
+        "email_root": "sms.edgewireless.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 21,
+    "fields": {
+        "name": "Fido",
+        "slug": "fido",
+        "created": "2016-06-11T17:12:39.821Z",
+        "last_updated": "2016-06-11T17:12:39.821Z",
+        "email_root": "fido.ca"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 22,
+    "fields": {
+        "name": "Golden Telecom",
+        "slug": "golden-telecom",
+        "created": "2016-06-11T17:12:49.135Z",
+        "last_updated": "2016-06-11T17:12:49.135Z",
+        "email_root": "sms.goldentele.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 23,
+    "fields": {
+        "name": "Helio",
+        "slug": "helio",
+        "created": "2016-06-11T17:12:55.529Z",
+        "last_updated": "2016-06-11T17:12:55.529Z",
+        "email_root": "messaging.sprintpcs.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 24,
+    "fields": {
+        "name": "Houston Cellular",
+        "slug": "houston-cellular",
+        "created": "2016-06-11T17:13:12.438Z",
+        "last_updated": "2016-06-11T17:13:12.438Z",
+        "email_root": "text.houstoncellular.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 25,
+    "fields": {
+        "name": "Idea Cellular",
+        "slug": "idea-cellular",
+        "created": "2016-06-11T17:13:19.431Z",
+        "last_updated": "2016-06-11T17:13:19.431Z",
+        "email_root": "ideacellular.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 26,
+    "fields": {
+        "name": "Illinois Valley Cellular",
+        "slug": "illinois-valley-cellular",
+        "created": "2016-06-11T17:13:28.974Z",
+        "last_updated": "2016-06-11T17:13:28.974Z",
+        "email_root": "ivctext.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 27,
+    "fields": {
+        "name": "Inland Cellular Telephone",
+        "slug": "inland-cellular-telephone",
+        "created": "2016-06-11T17:13:43.816Z",
+        "last_updated": "2016-06-11T17:13:43.816Z",
+        "email_root": "inlandlink.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 28,
+    "fields": {
+        "name": "MCI",
+        "slug": "mci",
+        "created": "2016-06-11T17:13:53.024Z",
+        "last_updated": "2016-06-11T17:13:53.024Z",
+        "email_root": "pagemci.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 29,
+    "fields": {
+        "name": "Metrocall",
+        "slug": "metrocall",
+        "created": "2016-06-11T17:13:59.819Z",
+        "last_updated": "2016-06-11T17:13:59.819Z",
+        "email_root": "page.metrocall.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 30,
+    "fields": {
+        "name": "Metrocall 2-way",
+        "slug": "metrocall-2-way",
+        "created": "2016-06-11T17:14:10.214Z",
+        "last_updated": "2016-06-11T17:14:10.214Z",
+        "email_root": "my2way.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 31,
+    "fields": {
+        "name": "Metro PCS",
+        "slug": "metro-pcs",
+        "created": "2016-06-11T17:14:22.989Z",
+        "last_updated": "2016-06-11T17:14:22.989Z",
+        "email_root": "mymetropcs.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 32,
+    "fields": {
+        "name": "Microcell",
+        "slug": "microcell",
+        "created": "2016-06-11T17:14:31.734Z",
+        "last_updated": "2016-06-11T17:14:31.734Z",
+        "email_root": "fido.ca"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 33,
+    "fields": {
+        "name": "Midwest Wireless",
+        "slug": "midwest-wireless",
+        "created": "2016-06-11T17:14:40.277Z",
+        "last_updated": "2016-06-11T17:14:40.277Z",
+        "email_root": "clearlydigital.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 34,
+    "fields": {
+        "name": "Mobilcomm",
+        "slug": "mobilcomm",
+        "created": "2016-06-11T17:14:48.433Z",
+        "last_updated": "2016-06-11T17:14:48.433Z",
+        "email_root": "mobilecomm.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 35,
+    "fields": {
+        "name": "MTS",
+        "slug": "mts",
+        "created": "2016-06-11T17:14:53.974Z",
+        "last_updated": "2016-06-11T17:14:53.974Z",
+        "email_root": "text.mtsmobility.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 36,
+    "fields": {
+        "name": "Nextel",
+        "slug": "nextel",
+        "created": "2016-06-11T17:15:01.761Z",
+        "last_updated": "2016-06-11T17:15:01.761Z",
+        "email_root": "messaging.nextel.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 37,
+    "fields": {
+        "name": "OnlineBeep",
+        "slug": "onlinebeep",
+        "created": "2016-06-11T17:15:10.794Z",
+        "last_updated": "2016-06-11T17:15:10.794Z",
+        "email_root": "onlinebeep.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 38,
+    "fields": {
+        "name": "PCS One",
+        "slug": "pcs-one",
+        "created": "2016-06-11T17:15:16.338Z",
+        "last_updated": "2016-06-11T17:15:16.338Z",
+        "email_root": "pcsone.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 39,
+    "fields": {
+        "name": "President's Choice",
+        "slug": "presidents-choice",
+        "created": "2016-06-11T17:15:26.917Z",
+        "last_updated": "2016-06-11T17:15:26.917Z",
+        "email_root": "txt.bell.ca"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 40,
+    "fields": {
+        "name": "Public Service Cellular",
+        "slug": "public-service-cellular",
+        "created": "2016-06-11T17:15:35.123Z",
+        "last_updated": "2016-06-11T17:15:35.123Z",
+        "email_root": "sms.pscel.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 41,
+    "fields": {
+        "name": "Qwest",
+        "slug": "qwest",
+        "created": "2016-06-11T17:15:43.552Z",
+        "last_updated": "2016-06-11T17:15:43.552Z",
+        "email_root": "qwestmp.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 42,
+    "fields": {
+        "name": "Rogers AT&T Wireless",
+        "slug": "rogers-att-wireless",
+        "created": "2016-06-11T17:15:56.790Z",
+        "last_updated": "2016-06-11T17:15:56.790Z",
+        "email_root": "pcs.rogers.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 43,
+    "fields": {
+        "name": "Southwestern Bell",
+        "slug": "southwestern-bell",
+        "created": "2016-06-11T17:16:17.850Z",
+        "last_updated": "2016-06-11T17:16:17.850Z",
+        "email_root": "email.swbw.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 44,
+    "fields": {
+        "name": "Sprint",
+        "slug": "sprint",
+        "created": "2016-06-11T17:16:25.010Z",
+        "last_updated": "2016-06-11T17:16:25.010Z",
+        "email_root": "messaging.sprintpcs.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 45,
+    "fields": {
+        "name": "Sumcom",
+        "slug": "sumcom",
+        "created": "2016-06-11T17:16:30.589Z",
+        "last_updated": "2016-06-11T17:16:30.589Z",
+        "email_root": "tms.suncom.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 46,
+    "fields": {
+        "name": "Surewest Communications",
+        "slug": "surewest-communications",
+        "created": "2016-06-11T17:16:38.727Z",
+        "last_updated": "2016-06-11T17:16:38.727Z",
+        "email_root": "mobile.surewest.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 47,
+    "fields": {
+        "name": "T-Mobile",
+        "slug": "t-mobile",
+        "created": "2016-06-11T17:16:45.724Z",
+        "last_updated": "2016-06-11T17:16:45.725Z",
+        "email_root": "tmomail.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 48,
+    "fields": {
+        "name": "Telus",
+        "slug": "telus",
+        "created": "2016-06-11T17:16:50.893Z",
+        "last_updated": "2016-06-11T17:16:50.893Z",
+        "email_root": "msg.telus.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 49,
+    "fields": {
+        "name": "Tracfone",
+        "slug": "tracfone",
+        "created": "2016-06-11T17:16:56.618Z",
+        "last_updated": "2016-06-11T17:16:56.618Z",
+        "email_root": "txt.att.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 50,
+    "fields": {
+        "name": "Triton",
+        "slug": "triton",
+        "created": "2016-06-11T17:17:02.213Z",
+        "last_updated": "2016-06-11T17:17:02.213Z",
+        "email_root": "tms.suncom.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 51,
+    "fields": {
+        "name": "Unicel",
+        "slug": "unicel",
+        "created": "2016-06-11T17:17:15.539Z",
+        "last_updated": "2016-06-11T17:17:15.539Z",
+        "email_root": "utext.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 52,
+    "fields": {
+        "name": "US Cellular",
+        "slug": "us-cellular",
+        "created": "2016-06-11T17:17:22.311Z",
+        "last_updated": "2016-06-11T17:17:22.311Z",
+        "email_root": "email.uscc.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 53,
+    "fields": {
+        "name": "Solo Mobile",
+        "slug": "solo-mobile",
+        "created": "2016-06-11T17:17:28.137Z",
+        "last_updated": "2016-06-11T17:17:28.137Z",
+        "email_root": "txt.bell.ca"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 54,
+    "fields": {
+        "name": "Sprint",
+        "slug": "sprint-2",
+        "created": "2016-06-11T17:17:34.655Z",
+        "last_updated": "2016-06-11T17:17:34.655Z",
+        "email_root": "messaging.sprintpcs.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 55,
+    "fields": {
+        "name": "Verizon",
+        "slug": "verizon",
+        "created": "2016-06-11T17:17:51.661Z",
+        "last_updated": "2016-06-11T17:17:51.661Z",
+        "email_root": "vtext.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 56,
+    "fields": {
+        "name": "Virgin Mobile",
+        "slug": "virgin-mobile",
+        "created": "2016-06-11T17:17:57.264Z",
+        "last_updated": "2016-06-11T17:17:57.264Z",
+        "email_root": "vmobl.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 57,
+    "fields": {
+        "name": "Virgin Mobile Canada",
+        "slug": "virgin-mobile-canada",
+        "created": "2016-06-11T17:18:11.713Z",
+        "last_updated": "2016-06-11T17:18:11.713Z",
+        "email_root": "vmobile.ca"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 58,
+    "fields": {
+        "name": "West Central Wireless",
+        "slug": "west-central-wireless",
+        "created": "2016-06-11T17:18:20.979Z",
+        "last_updated": "2016-06-11T17:18:20.979Z",
+        "email_root": "sms.wcc.net"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 59,
+    "fields": {
+        "name": "Western Wireless",
+        "slug": "western-wireless",
+        "created": "2016-06-11T17:18:30.535Z",
+        "last_updated": "2016-06-11T17:18:30.535Z",
+        "email_root": "cellularonewest.com"
+    }
+},
+{
+    "model": "email2sms.provider",
+    "pk": 60,
+    "fields": {
+        "name": "Google Fi",
+        "slug": "google-fi",
+        "created": "2016-06-11T17:18:30.535Z",
+        "last_updated": "2016-06-11T17:18:30.535Z",
+        "email_root": "msg.fi.google.com"
+    }
+}
+]

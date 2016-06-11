@@ -12,7 +12,7 @@ class ProviderAdminForm(forms.ModelForm):
 class ProviderAdmin(admin.ModelAdmin):
     form = ProviderAdminForm
     list_display = ['name', 'slug', 'created', 'last_updated', 'email_root']
-    readonly_fields = ['name', 'slug', 'created', 'last_updated', 'email_root']
+    readonly_fields = ['slug', 'created', 'last_updated']
 
 admin.site.register(Provider, ProviderAdmin)
 
