@@ -44,7 +44,7 @@ SUB_TYPES = (
 
 #         super(BaseMixin, self).save(*args, **kwargs)
 
-#     def __unicode__(self):
+#     def __str__(self):
 #         return u'{0}'.format(self.name)
 
 #     def save(self, *args, **kwargs):
@@ -99,7 +99,7 @@ class Municipality(models.Model):
     approved = models.BooleanField(_("Approved"), default=True)
     zipcode =  USZipCodeField()
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{0}, {1}'.format(self.name, self.state)
 
 
@@ -126,7 +126,7 @@ class District(models.Model):
     identifier = models.CharField(_("Identifier"), blank=True, null=True, max_length=255)
     pickup_time = models.CharField(_("Pick up time"), max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{0} district for {1}'.format(self.get_district_type_display(),
                                               self.municipality)
 
