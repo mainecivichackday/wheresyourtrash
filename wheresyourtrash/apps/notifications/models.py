@@ -23,48 +23,66 @@ SUB_TYPES = (
 )
 
 
-class BaseMixin(models.Model):
+# class BaseMixin(models.Model):
+#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     slug = models.SlugField(blank=True, null=True)
+#     name = models.CharField(_("Name"), max_length=255)
+#     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
+#     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
+
+#     class Meta:
+#         abstract = True
+
+#     def __init__(self, *args, **kwargs):
+#         super(BaseMixin, self).__init__(*args, **kwargs)
+
+#     # Override save method.
+#     def save(self,  *args, **kwargs):
+#         update = kwargs.pop('update', False)
+#         if update:
+#             self.updated= datetime.now()
+
+#         super(BaseMixin, self).save(*args, **kwargs)
+
+#     def __unicode__(self):
+#         return u'{0}'.format(self.name)
+
+#     def save(self, *args, **kwargs):
+#         if not self.id:
+#             self.slug = slugify(self.name, self.state)
+#         super(BaseMixin, self).save(*args, **kwargs)
+
+
+# class TrashableMixin(BaseMixin):
+#     trashed = models.BooleanField(default=False, db_index=True)
+
+#     objects = TrashManager()
+
+#     class Meta:
+#         abstract = True
+
+#     def __init__(self, *args, **kwargs):
+#         super(TrashableMixin, self).__init__(*args, **kwargs)
+
+#     # Override delete method.
+#     def delete(self, **kwargs):
+#         self._forced_delete = kwargs.pop('forced', False)
+#         if not self._forced_delete:
+#             model = self.__class__
+#             kwargs.update({'trashed': True})
+#             model.objects.using(self._db).filter(
+#                     pk=self.id).update(**kwargs)
+#         else:
+#             super(TrashableMixin, self).delete(**kwargs)
+
+
+class Municipality(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(blank=True, null=True)
     name = models.CharField(_("Name"), max_length=255)
-    created = models.DateTimeField(_("Created"), auto_now=True, db_index=True)
+    created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
-
-    class Meta:
-        abstract = True
-
-    def __init__(self, *args, **kwargs):
-        super(BaseMixin, self).__init__(*args, **kwargs)
-
-    # Override save method.
-    def save(self,  *args, **kwargs):
-        update = kwargs.pop('update', False)
-        if update:
-            self.updated= datetime.now()
-
-        super(BaseMixin, self).save(*args, **kwargs)
-
-    def __unicode__(self):
-        return u'{0}'.format(self.name)
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.name, self.state)
-        super(BaseMixin, self).save(*args, **kwargs)
-
-
-class TrashableMixin(BaseMixin):
     trashed = models.BooleanField(default=False, db_index=True)
-
-    objects = TrashManager()
-
-    class Meta:
-        abstract = True
-
-    def __init__(self, *args, **kwargs):
-        super(TrashableMixin, self).__init__(*args, **kwargs)
-
-    # Override delete method.
     def delete(self, **kwargs):
         self._forced_delete = kwargs.pop('forced', False)
         if not self._forced_delete:
@@ -73,10 +91,8 @@ class TrashableMixin(BaseMixin):
             model.objects.using(self._db).filter(
                     pk=self.id).update(**kwargs)
         else:
-            super(TrashableMixin, self).delete(**kwargs)
+            super(Municipality, self).delete(**kwargs)
 
-
-class Municipality(TrashableMixin):
     state = USStateField()
     population = models.IntegerField(_("Population"), null=True, blank=True)
     contacts = models.ManyToManyField(User)
@@ -87,7 +103,23 @@ class Municipality(TrashableMixin):
         return u'{0}, {1}'.format(self.name, self.state)
 
 
-class District(TrashableMixin):
+class District(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    slug = models.SlugField(blank=True, null=True)
+    name = models.CharField(_("Name"), max_length=255)
+    created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
+    updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
+    trashed = models.BooleanField(default=False, db_index=True)
+    def delete(self, **kwargs):
+        self._forced_delete = kwargs.pop('forced', False)
+        if not self._forced_delete:
+            model = self.__class__
+            kwargs.update({'trashed': True})
+            model.objects.using(self._db).filter(
+                    pk=self.id).update(**kwargs)
+        else:
+            super(District, self).delete(**kwargs)
+
     municipality = models.ForeignKey(Municipality)
     district_type = models.CharField(_("District type"), max_length=50,
                                      choices=DISTRICT_TYPES)
@@ -118,7 +150,24 @@ class District(TrashableMixin):
                 next_date = new_date
         return next_date.date()
 
-class DistrictExceptions(BaseMixin):
+class DistrictExceptions(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    slug = models.SlugField(blank=True, null=True)
+    name = models.CharField(_("Name"), max_length=255)
+    created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
+    updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
+    trashed = models.BooleanField(default=False, db_index=True)
+    def delete(self, **kwargs):
+        self._forced_delete = kwargs.pop('forced', False)
+        if not self._forced_delete:
+            model = self.__class__
+            kwargs.update({'trashed': True})
+            model.objects.using(self._db).filter(
+                    pk=self.id).update(**kwargs)
+        else:
+            super(DistrictExceptions, self).delete(**kwargs)
+
+
     district = models.ForeignKey(District)
     date = models.DateField(_("Date"))
     new_date = models.DateField(_("New date"), blank=True, null=True)
@@ -132,12 +181,44 @@ class DistrictExceptions(BaseMixin):
 
 
 class AddressBlock(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    slug = models.SlugField(blank=True, null=True)
+    name = models.CharField(_("Name"), max_length=255)
+    created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
+    updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
+    trashed = models.BooleanField(default=False, db_index=True)
+    def delete(self, **kwargs):
+        self._forced_delete = kwargs.pop('forced', False)
+        if not self._forced_delete:
+            model = self.__class__
+            kwargs.update({'trashed': True})
+            model.objects.using(self._db).filter(
+                    pk=self.id).update(**kwargs)
+        else:
+            super(AddressBlock, self).delete(**kwargs)
+
     district = models.ForeignKey(District)
     address_range = models.CharField(_("Address range"), max_length=255)
     street = models.CharField(_("Street"), max_length=255)
 
 
-class Subscription(TrashableMixin):
+class Subscription(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    slug = models.SlugField(blank=True, null=True)
+    name = models.CharField(_("Name"), max_length=255)
+    created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
+    updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
+    trashed = models.BooleanField(default=False, db_index=True)
+    def delete(self, **kwargs):
+        self._forced_delete = kwargs.pop('forced', False)
+        if not self._forced_delete:
+            model = self.__class__
+            kwargs.update({'trashed': True})
+            model.objects.using(self._db).filter(
+                    pk=self.id).update(**kwargs)
+        else:
+            super(Subscription, self).delete(**kwargs)
+
     user = models.ForeignKey(User)
     subscription_type = models.CharField(_("Type"), choices=SUB_TYPES,
                                          max_length=20)
