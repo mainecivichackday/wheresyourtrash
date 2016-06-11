@@ -65,3 +65,4 @@ venv
 *.sqlite3
 .vagrant
 .env
+public
