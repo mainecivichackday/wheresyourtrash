@@ -11,8 +11,8 @@ class MunicipalityAdminForm(forms.ModelForm):
 
 class MunicipalityAdmin(admin.ModelAdmin):
     form = MunicipalityAdminForm
-    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'state', 'population', 'approved']
-    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'state', 'population', 'approved']
+    list_display = ['name', 'state', 'population', 'approved']
+    readonly_fields = ['created', 'updated', 'trashed']
 
 admin.site.register(Municipality, MunicipalityAdmin)
 
@@ -26,8 +26,8 @@ class DistrictAdminForm(forms.ModelForm):
 
 class DistrictAdmin(admin.ModelAdmin):
     form = DistrictAdminForm
-    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'district_type', 'pickup_time']
-    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'district_type', 'pickup_time']
+    list_display = ['name', 'created', 'updated', 'trashed', 'district_type', 'pickup_time']
+    readonly_fields = ['created', 'updated', 'trashed']
 
 admin.site.register(District, DistrictAdmin)
 
@@ -56,8 +56,8 @@ class AddressBlockAdminForm(forms.ModelForm):
 
 class AddressBlockAdmin(admin.ModelAdmin):
     form = AddressBlockAdminForm
-    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'address_range', 'street']
-    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'address_range', 'street']
+    list_display = ['id', 'created', 'updated', 'trashed', 'address_range', 'street']
+    readonly_fields = ['id', 'created', 'updated', 'trashed', 'address_range', 'street']
 
 admin.site.register(AddressBlock, AddressBlockAdmin)
 
@@ -71,8 +71,8 @@ class SubscriptionAdminForm(forms.ModelForm):
 
 class SubscriptionAdmin(admin.ModelAdmin):
     form = SubscriptionAdminForm
-    list_display = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'subscription_type']
-    readonly_fields = ['id', 'slug', 'name', 'created', 'updated', 'trashed', 'subscription_type']
+    list_display = ['id', 'created', 'updated', 'trashed', 'subscription_type', 'phone_number','service_provider']
+    readonly_fields = ['id', 'created', 'updated', 'trashed', 'subscription_type', 'phone_number', 'service_provider']
 
 admin.site.register(Subscription, SubscriptionAdmin)
 

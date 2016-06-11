@@ -58,6 +58,8 @@ class Common(Configuration):
         'floppyforms',
         'rest_framework',
         'crispy_forms',
+        'materializecssform',
+
 
         # Custom apps
         'notifications',

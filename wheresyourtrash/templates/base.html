@@ -5,25 +5,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#2196F3">
-    <title>{% block page_title %}django outline 2.0{% endblock %}</title>
+    <title>{% block page_title %}Where's Your Trash{% endblock %}</title>
 
     <!-- CSS  -->
     <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" >
     <link href="{% static 'css/font-awesome.min.css' %}" type="text/css" rel="stylesheet" >
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    {# Custom CSS #}
+    {# custom css #}
     {% block css %}{% endblock %}
 
-    <script src="{% static 'js/modernizr.js' %}"></script> <!-- Modernizr -->
+    <script src="{% static 'js/modernizr.js' %}"></script> <!-- modernizr -->
 
-    {# Custom head JS #}
+    {# custom head js #}
     {% block head_js %}{% endblock %}
 
 </head>
 <body id="top" class="scrollspy" {% block body_attr %}{% endblock body_attr %}>
 
-<!-- Pre Loader -->
+<!-- pre loader -->
 <div id="loader-wrapper">
     <div id="loader"></div>
  
@@ -32,26 +33,26 @@
  
 </div>
 
-<!--Navigation-->
+<!--navigation-->
  <div class="navbar-fixed">
     {% block navigation %}
     <nav id="nav_f" class="default_color" role="navigation">
         <div class="container">
-            <div class="nav-wrapper"><a id="logo-container" href="/" class="brand-logo">Django Outline</a>
+            <div class="nav-wrapper"><a id="logo-container" href="/" class="brand-logo">where's your trash?!</a>
             <ul id="nav-mobile" class="right side-nav">
-                <li><a href="/#intro">Get Started</a></li>
-                <li><a href="/#work">Docs</a></li>
+                <li><a href="{% url 'notifications:municipality_list' %}">new subscription</a></li>
+                <li><a href="{% url 'notifications:subscription_list' %}">my subscriptions</a></li>
 		{% if not request.user.is_authenticated %}
-                <li><a href="{% url 'account_signup' %}">Signup</a></li>
-                <li><a href="{% url 'account_login' %}">Login</a></li>
+                <li><a href="/#intro">how does this work?</a></li>
+                <li><a href="{% url 'account_signup' %}">signup</a></li>
+                <li><a href="{% url 'account_login' %}">login</a></li>
 		{% else %}
 		<li>
                 <form method="post" id="logout-form" action="{% url 'account_logout' %}">{% csrf_token %}
-                <a href="#" onclick="$('#logout-form').submit();">Logout</a>
+                <a href="#" onclick="$('#logout-form').submit();">logout</a>
 		</form>
 		</li>
 		{% endif %}
-                <li><a href="https://github.com/powellc/outline" target="_blank"><i class="fa fa-github"></i> Github</a></li>
             </ul><a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
             </div>
         </div>
@@ -79,39 +80,18 @@
     <div class="container">  
         <div class="row">
             <div class="col l6 s12">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <i class="mdi-action-account-circle prefix white-text"></i>
-                            <input id="icon_prefix" type="text" class="validate white-text">
-                            <label for="icon_prefix" class="white-text">Colin Powell</label>
-                        </div>
-                        <div class="input-field col s6">
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="mdi-editor-mode-edit prefix white-text"></i>
-                            <textarea id="icon_prefix2" class="materialize-textarea white-text"></textarea>
-                            <label for="icon_prefix2" class="white-text">Message</label>
-                        </div>
-                        <div class="col offset-s7 s5">
-                            <button class="btn waves-effect waves-light red darken-1" type="submit" name="action">Submit
-                                <i class="mdi-content-send right white-text"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
             </div>
             <div class="col l3 s12">
-                <h5 class="white-text">powellc</h5>
+                <h5 class="white-text">Code for Maine</h5>
                 <ul>
-                    <li><a class="white-text" href="http://www.onec.me/blog">Blog</a></li>
+                    <li><a class="white-text" href="http://www.codeformaine.org/blog">Blog</a></li>
                 </ul>
             </div>
             <div class="col l3 s12">
                 <h5 class="white-text">Social</h5>
                 <ul>
                     <li>
-                        <a class="white-text" href="https://github.com/powellc/outline">
+                        <a class="white-text" href="https://github.com/code4maine/wheresyourtrash">
                             <i class="small fa fa-github-square white-text"></i> Github
                         </a>
                     </li>
@@ -121,7 +101,7 @@
     </div>
     <div class="footer-copyright default_color">
         <div class="container">
-            Made by <a class="white-text" href="http://github.com/powellc">powellc</a>. Thanks to <a class="white-text" href="http://materializecss.com/">materializecss</a> and <a class="white-text" href="http://joashpereira.com">joashpereira.com</a>
+            Made by <a class="white-text" href="http://github.com/code4maine">code for maine</a>. Thanks to <a class="white-text" href="http://materializecss.com/">materializecss</a> and <a class="white-text" href="http://joashpereira.com">joashpereira.com</a>
         </div>
     </div>
 </footer>
@@ -131,6 +111,11 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
+    <script>
+    $(document).ready(function() {
+        $('select').material_select();
+      });
+    </script>
  
     {% block body_js %}{% endblock body_js %}
 

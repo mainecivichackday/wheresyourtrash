@@ -1,7 +1,11 @@
+from django.contrib import messages
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, TemplateView
+from django.core.urlresolvers import reverse
+
 from .models import Municipality, District, DistrictExceptions, AddressBlock, Subscription
 from .forms import MunicipalityForm, DistrictForm, DistrictExceptionsForm, AddressBlockForm, SubscriptionForm
 
+from braces.views import LoginRequiredMixin
 
 
 class HomeView(TemplateView):
@@ -18,9 +22,12 @@ class MunicipalityCreateView(CreateView):
 
 class MunicipalityDetailView(DetailView):
     model = Municipality
-    def districts():
-        return District.objects.get(municipality=get_object())
-        
+
+    def subscription_form(self):
+        choices = [(d.id, d.name) for d in District.objects.filter(municipality=self.object)]
+        form = SubscriptionForm(initial={'user':self.request.user})
+        form.fields['district'].choices = choices
+        return form
 
 class MunicipalityUpdateView(UpdateView):
     model = Municipality
@@ -81,20 +88,38 @@ class AddressBlockUpdateView(UpdateView):
     form_class = AddressBlockForm
 
 
-class SubscriptionListView(ListView):
+class SubscriptionMixin(object):
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+            return Subscription.objects.filter(user=self.request.user)
+        else:
+            return Subscription.objects.none()
+
+
+class SubscriptionListView(SubscriptionMixin, ListView):
     model = Subscription
 
 
-class SubscriptionCreateView(CreateView):
+class SubscriptionCreateView(SubscriptionMixin, LoginRequiredMixin, CreateView):
     model = Subscription
     form_class = SubscriptionForm
 
+    def get_initial(self):
+        """
+        Returns the initial data to use for forms on this view.
+        """
+        initial = super(SubscriptionCreateView, self).get_initial()
+        initial['user'] = self.request.user
+        return initial
 
-class SubscriptionDetailView(DetailView):
+
+    def get_success_url(self):
+        return reverse('notifications:subscription_list')
+
+class SubscriptionDetailView(SubscriptionMixin, LoginRequiredMixin, DetailView):
     model = Subscription
 
 
-class SubscriptionUpdateView(UpdateView):
+class SubscriptionUpdateView(SubscriptionMixin, LoginRequiredMixin, UpdateView):
     model = Subscription
     form_class = SubscriptionForm
-

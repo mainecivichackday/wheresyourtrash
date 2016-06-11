@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_addressblock_list' %}">AddressBlock Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'notifications:addressblock_list' %}">AddressBlock Listing</a></p>
 <table class="table">
 <tr>
 <td>ID</td><td>Link</td>
@@ -28,5 +28,5 @@
     <td>{{ object.street }}</td>
 </tr>
 {% endfor %}
-</table><a class="btn btn-primary" href="{% url 'app_name_addressblock_create' %}">Create new AddressBlock</a>
+</table><a class="btn btn-primary" href="{% url 'notifications:addressblock_create' %}">Create new AddressBlock</a>
 {% endblock %}

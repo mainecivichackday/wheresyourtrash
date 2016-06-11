@@ -4,11 +4,14 @@ import uuid
 from datetime import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.template.defaultfilters import slugify
-from localflavor.us.models import USStateField, USZipCodeField
+from localflavor.us.models import USStateField, USZipCodeField, PhoneNumberField
 from custom_user.models import EmailUser as User
-from recurrent import RecurringEvent
 from dateutil import rrule
+from django.core.urlresolvers import reverse
+from django_extensions.db import fields as extension_fields
+
+from recurrent import RecurringEvent
+from email2sms.models import Provider
 
 from .managers import TrashManager
 
@@ -18,7 +21,7 @@ DISTRICT_TYPES = (
 )
 
 SUB_TYPES = (
-    #('SMS', 'Text message'),
+    ('SMS', 'Text message'),
     ('EMAIL', 'Email'),
 )
 
@@ -78,11 +81,25 @@ SUB_TYPES = (
 
 class Municipality(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.SlugField(blank=True, null=True)
+    slug = extension_fields.AutoSlugField(populate_from='name', blank=True)
     name = models.CharField(_("Name"), max_length=255)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
     trashed = models.BooleanField(default=False, db_index=True)
+
+    districts_map = models.ImageField(_("Districts Map"), upload_to="notifications/maps/", blank=True, null=True)
+    state = USStateField()
+    population = models.IntegerField(_("Population"), null=True, blank=True)
+    contacts = models.ManyToManyField(User)
+    approved = models.BooleanField(_("Approved"), default=True)
+    zipcode =  USZipCodeField()
+
+    def __str__(self):
+        return u'{0}, {1}'.format(self.name, self.state)
+
+    def get_absolute_url(self):
+        return reverse('notifications:municipality_detail', args=[str(self.slug)])
+
     def delete(self, **kwargs):
         self._forced_delete = kwargs.pop('forced', False)
         if not self._forced_delete:
@@ -93,23 +110,24 @@ class Municipality(models.Model):
         else:
             super(Municipality, self).delete(**kwargs)
 
-    state = USStateField()
-    population = models.IntegerField(_("Population"), null=True, blank=True)
-    contacts = models.ManyToManyField(User)
-    approved = models.BooleanField(_("Approved"), default=True)
-    zipcode =  USZipCodeField()
-
-    def __str__(self):
-        return u'{0}, {1}'.format(self.name, self.state)
-
-
 class District(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.SlugField(blank=True, null=True)
+    slug = extension_fields.AutoSlugField(populate_from='name', blank=True)
     name = models.CharField(_("Name"), max_length=255)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
     trashed = models.BooleanField(default=False, db_index=True)
+
+    municipality = models.ForeignKey(Municipality)
+    district_type = models.CharField(_("District type"), max_length=50,
+                                     choices=DISTRICT_TYPES)
+    identifier = models.CharField(_("Identifier"), blank=True, null=True, max_length=255)
+    pickup_time = models.CharField(_("Pick up time"), max_length=255)
+
+    def __str__(self):
+        return u'{0} {1} district for {2}'.format(self.name, self.get_district_type_display(),
+                                              self.municipality)
+
     def delete(self, **kwargs):
         self._forced_delete = kwargs.pop('forced', False)
         if not self._forced_delete:
@@ -119,17 +137,6 @@ class District(models.Model):
                     pk=self.id).update(**kwargs)
         else:
             super(District, self).delete(**kwargs)
-
-    municipality = models.ForeignKey(Municipality)
-    district_type = models.CharField(_("District type"), max_length=50,
-                                     choices=DISTRICT_TYPES)
-    identifier = models.CharField(_("Identifier"), blank=True, null=True, max_length=255)
-    pickup_time = models.CharField(_("Pick up time"), max_length=255)
-
-    def __str__(self):
-        return u'{0} district for {1}'.format(self.get_district_type_display(),
-                                              self.municipality)
-
 
     @property
     def next_pickup(self):
@@ -152,11 +159,27 @@ class District(models.Model):
 
 class DistrictExceptions(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.SlugField(blank=True, null=True)
+    slug = extension_fields.AutoSlugField(populate_from='name', blank=True)
     name = models.CharField(_("Name"), max_length=255)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
     trashed = models.BooleanField(default=False, db_index=True)
+
+    district = models.ForeignKey(District)
+    date = models.DateField(_("Date"))
+    new_date = models.DateField(_("New date"), blank=True, null=True)
+
+    def __str__(self):
+        return u'{0}'.format(self.name)
+
+
+    @property
+    def cancelled(self):
+        cancelled = False
+        if not self.new_date:
+            cancelled = True
+        return cancelled
+
     def delete(self, **kwargs):
         self._forced_delete = kwargs.pop('forced', False)
         if not self._forced_delete:
@@ -168,47 +191,50 @@ class DistrictExceptions(models.Model):
             super(DistrictExceptions, self).delete(**kwargs)
 
 
-    district = models.ForeignKey(District)
-    date = models.DateField(_("Date"))
-    new_date = models.DateField(_("New date"), blank=True, null=True)
-
-    @property
-    def cancelled(self):
-        cancelled = False
-        if not self.new_date:
-            cancelled = True
-        return cancelled
-
-
 class AddressBlock(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.SlugField(blank=True, null=True)
-    name = models.CharField(_("Name"), max_length=255)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
     trashed = models.BooleanField(default=False, db_index=True)
+
+    district = models.ForeignKey(District)
+    address_range = models.CharField(_("Address range"), max_length=255)
+    street = models.CharField(_("Street"), max_length=255)
+
+    def __str__(self):
+        return u'{0} - {1} {2}'.format(self.district, self.address_range, self.street)
+
     def delete(self, **kwargs):
         self._forced_delete = kwargs.pop('forced', False)
         if not self._forced_delete:
-            model = self.__class__
+            model = self.__class
             kwargs.update({'trashed': True})
             model.objects.using(self._db).filter(
                     pk=self.id).update(**kwargs)
         else:
             super(AddressBlock, self).delete(**kwargs)
 
-    district = models.ForeignKey(District)
-    address_range = models.CharField(_("Address range"), max_length=255)
-    street = models.CharField(_("Street"), max_length=255)
-
-
 class Subscription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.SlugField(blank=True, null=True)
-    name = models.CharField(_("Name"), max_length=255)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
     trashed = models.BooleanField(default=False, db_index=True)
+
+    user = models.ForeignKey(User)
+    subscription_type = models.CharField(_("Type"), choices=SUB_TYPES,
+                                         max_length=20)
+    service_provider = models.ForeignKey(Provider, blank=True, null=True)
+    phone_number = PhoneNumberField(blank=True, null=True)
+    district = models.ForeignKey(District)
+    suspended = models.BooleanField(default=False)
+
+    def __str__(self):
+        return u'{0} notifications for {1}'.format(self.subscription_type,
+                                                          self.district)
+
+    def get_absolute_url(self):
+        return reverse('notifications:subscription_detail', args=[self.id])
+
     def delete(self, **kwargs):
         self._forced_delete = kwargs.pop('forced', False)
         if not self._forced_delete:
@@ -218,9 +244,4 @@ class Subscription(models.Model):
                     pk=self.id).update(**kwargs)
         else:
             super(Subscription, self).delete(**kwargs)
-
-    user = models.ForeignKey(User)
-    subscription_type = models.CharField(_("Type"), choices=SUB_TYPES,
-                                         max_length=20)
-    district = models.ForeignKey(District)
 

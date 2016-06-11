@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_districtexceptions_list' %}">DistrictExceptions Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'notifications:districtexceptions_list' %}">DistrictExceptions Listing</a></p>
 <table class="table">
 <tr>
 <td>ID</td><td>Link</td>
@@ -28,5 +28,5 @@
     <td>{{ object.new_date }}</td>
 </tr>
 {% endfor %}
-</table><a class="btn btn-primary" href="{% url 'app_name_districtexceptions_create' %}">Create new DistrictExceptions</a>
+</table><a class="btn btn-primary" href="{% url 'notifications:districtexceptions_create' %}">Create new DistrictExceptions</a>
 {% endblock %}

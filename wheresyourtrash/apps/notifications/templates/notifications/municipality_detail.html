@@ -1,19 +1,55 @@
 {% extends "base.html" %}
 {% load static %}
+{% load materializecss %}
+
+{% block extra_js %}
+$(document).ready(function() {
+  $('.modal-trigger').leanModal();
+});
+ window.onload = function() {
+    document.getElementById('id_phone_number').style.display = 'none';
+    document.getElementById('id_service_provider').style.display = 'none';
+}
+
+$("input[name='subscription_type']").change(function () {
+    console.log('yup');
+    if (this.checked) {
+        console.log('got here');
+        $("input[name='phone_number']").show();
+        $("input[name='service_provider']").show();
+    }
+});
+{% endblock %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'municipality_list' %}">Municipality Listing</a></p>
-<table class="table">
-<tr><td>name</td><td>{{ object.name }}</td></tr>
-<tr><td>state</td><td>{{ object.state }}</td></tr>
-<tr><td>population</td><td>{{ object.population }}</td></tr>
-</table>
-<a class="btn btn-primary" href="{{object.get_update_url}}">Edit Municipality</a>
-<h3>Districts</h3>
-<table>
-	{% for district in object.district_set.all %}
-	<tr><td><a href="">{{ district }}</a></td></tr>
-	{% empty %}
-	<tr><td>None Found</td></tr>
-    {% endfor %}
-</table>
+  <!-- Modal Trigger -->
+  <div class="row">
+    <div class="col s6">
+      <p><a href="#mapzoom" class="modal-trigger"><img width="400" src="{{MEDIA_URL}}{{object.districts_map}}" /></a><br />Click to zoom</p>
+    </div>
+
+    <div class="col s6">
+      <form method="post" action="{% url 'notifications:subscription_create' %}">
+      {% csrf_token %}
+      {{view.subscription_form|materializecss}}
+      <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+      
+    </div>
+
+</div>
+  <hr />
+      <p><a class="btn btn-default" href="{% url 'notifications:municipality_list' %}">Municipality Listing</a></p>
+
+<!-- Modal Structure -->
+<div id="mapzoom" class="modal">
+  <div class="modal-content">
+    <h4>District Map</h4>
+    <p><img width="900" src="{{MEDIA_URL}}{{object.districts_map}}" /></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+  </div>
+</div>
+<br />
+
 {% endblock %}

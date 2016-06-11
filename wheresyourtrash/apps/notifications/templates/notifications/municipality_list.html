@@ -1,20 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'municipality_list' %}">Municipality Listing</a></p>
-<table class="table">
-<tr>
-    <td>Name</td>
-    <td>State</td>
-    <td>Population</td>
-</tr>
+<div class="row"
+     <div class="col s12">
+         <h2>Subscribe now!</h2>
+         <h5>IT'S PICKUP DAY, WHERE'S YOUR TRASH?</h5>
+         <p>This is a simple service. Click on your community below and fill out a small form to begin receiving <b>email or text message notifications</b> the day before your trash or recycling pick up is coming up.</p>
+         <p>Exceptions to the schedule are added to the calendar by your community managers, so feel confident that when there's a holiday affecting pickup, your notification will get sent the day before the service actually comes by!</p>
+         <p>Please look for your community in the list below. If you do not see it, contact us to add your community to our service!</p>
+    </div>
 {% for object in object_list %}
-<tr>
-
-    <td><a href="{% url 'municipality_detail' object.slug %}">{{ object.name }}</a></td>
-    <td>{{ object.state }}</td>
-    <td>{{ object.population }}</td>
-</tr>
+  <class="col s4"><a  class="btn large" href="{% url 'notifications:municipality_detail' object.slug %}">{{ object }}</a></li>
 {% endfor %}
-</table>{% if user.is_staff %}<a class="btn btn-primary" href="{% url 'municipality_create' %}">Create new Municipality</a>{% endif %}
+</div>
 {% endblock %}

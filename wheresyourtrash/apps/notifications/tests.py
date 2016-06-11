@@ -106,12 +106,12 @@ class MunicipalityViewTest(unittest.TestCase):
         self.client = Client()
 
     def test_list_municipality(self):
-        url = reverse('app_name_municipality_list')
+        url = reverse('notifications:municipality_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_create_municipality(self):
-        url = reverse('app_name_municipality_create')
+        url = reverse('notifications:municipality_create')
         data = {
             "slug": "slug",
             "name": "name",
@@ -127,7 +127,7 @@ class MunicipalityViewTest(unittest.TestCase):
 
     def test_detail_municipality(self):
         municipality = create_municipality()
-        url = reverse('app_name_municipality_detail', args=[municipality.slug,])
+        url = reverse('notifications:municipality_detail', args=[municipality.slug,])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -143,7 +143,7 @@ class MunicipalityViewTest(unittest.TestCase):
             "approved": "approved",
             "contacts": create_user().id,
         }
-        url = reverse('app_name_municipality_update', args=[municipality.slug,])
+        url = reverse('notifications:municipality_update', args=[municipality.slug,])
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
 
@@ -156,12 +156,12 @@ class DistrictViewTest(unittest.TestCase):
         self.client = Client()
 
     def test_list_district(self):
-        url = reverse('app_name_district_list')
+        url = reverse('notifications:district_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_create_district(self):
-        url = reverse('app_name_district_create')
+        url = reverse('notifications:district_create')
         data = {
             "slug": "slug",
             "name": "name",
@@ -176,7 +176,7 @@ class DistrictViewTest(unittest.TestCase):
 
     def test_detail_district(self):
         district = create_district()
-        url = reverse('app_name_district_detail', args=[district.slug,])
+        url = reverse('notifications:district_detail', args=[district.slug,])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -191,7 +191,7 @@ class DistrictViewTest(unittest.TestCase):
             "pickup_time": "pickup_time",
             "municipality": create_municipality().id,
         }
-        url = reverse('app_name_district_update', args=[district.slug,])
+        url = reverse('notifications:district_update', args=[district.slug,])
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
 
@@ -204,12 +204,12 @@ class DistrictExceptionsViewTest(unittest.TestCase):
         self.client = Client()
 
     def test_list_districtexceptions(self):
-        url = reverse('app_name_districtexceptions_list')
+        url = reverse('notifications:districtexceptions_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_create_districtexceptions(self):
-        url = reverse('app_name_districtexceptions_create')
+        url = reverse('notifications:districtexceptions_create')
         data = {
             "slug": "slug",
             "name": "name",
@@ -224,7 +224,7 @@ class DistrictExceptionsViewTest(unittest.TestCase):
 
     def test_detail_districtexceptions(self):
         districtexceptions = create_districtexceptions()
-        url = reverse('app_name_districtexceptions_detail', args=[districtexceptions.slug,])
+        url = reverse('notifications:districtexceptions_detail', args=[districtexceptions.slug,])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -239,7 +239,7 @@ class DistrictExceptionsViewTest(unittest.TestCase):
             "new_date": "new_date",
             "district": create_district().id,
         }
-        url = reverse('app_name_districtexceptions_update', args=[districtexceptions.slug,])
+        url = reverse('notifications:districtexceptions_update', args=[districtexceptions.slug,])
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
 
@@ -252,12 +252,12 @@ class AddressBlockViewTest(unittest.TestCase):
         self.client = Client()
 
     def test_list_addressblock(self):
-        url = reverse('app_name_addressblock_list')
+        url = reverse('notifications:addressblock_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_create_addressblock(self):
-        url = reverse('app_name_addressblock_create')
+        url = reverse('notifications:addressblock_create')
         data = {
             "slug": "slug",
             "name": "name",
@@ -272,7 +272,7 @@ class AddressBlockViewTest(unittest.TestCase):
 
     def test_detail_addressblock(self):
         addressblock = create_addressblock()
-        url = reverse('app_name_addressblock_detail', args=[addressblock.slug,])
+        url = reverse('notifications:addressblock_detail', args=[addressblock.slug,])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -287,7 +287,7 @@ class AddressBlockViewTest(unittest.TestCase):
             "street": "street",
             "district": create_district().id,
         }
-        url = reverse('app_name_addressblock_update', args=[addressblock.slug,])
+        url = reverse('notifications:addressblock_update', args=[addressblock.slug,])
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
 
@@ -300,12 +300,12 @@ class SubscriptionViewTest(unittest.TestCase):
         self.client = Client()
 
     def test_list_subscription(self):
-        url = reverse('app_name_subscription_list')
+        url = reverse('notifications:subscription_list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_create_subscription(self):
-        url = reverse('app_name_subscription_create')
+        url = reverse('notifications:subscription_create')
         data = {
             "slug": "slug",
             "name": "name",
@@ -319,7 +319,7 @@ class SubscriptionViewTest(unittest.TestCase):
 
     def test_detail_subscription(self):
         subscription = create_subscription()
-        url = reverse('app_name_subscription_detail', args=[subscription.slug,])
+        url = reverse('notifications:subscription_detail', args=[subscription.slug,])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -333,7 +333,7 @@ class SubscriptionViewTest(unittest.TestCase):
             "subscription_type": "subscription_type",
             "user": create_user().id,
         }
-        url = reverse('app_name_subscription_update', args=[subscription.slug,])
+        url = reverse('notifications:subscription_update', args=[subscription.slug,])
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
 

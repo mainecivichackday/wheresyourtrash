@@ -22,7 +22,7 @@ class Provider(models.Model):
         ordering = ('-created',)
 
     def __str__(self):
-        return u'%s' % self.slug
+        return u'%s' % self.name
 
     def get_absolute_url(self):
         return reverse('email2sms_provider_detail', args=(self.slug,))

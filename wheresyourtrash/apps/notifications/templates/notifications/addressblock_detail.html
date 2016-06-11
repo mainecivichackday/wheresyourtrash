@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_addressblock_list' %}">AddressBlock Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'notifications:addressblock_list' %}">AddressBlock Listing</a></p>
 <table class="table">
 <tr><td>id</td><td>{{ object.id }}</td></tr>
 <tr><td>slug</td><td>{{ object.slug }}</td></tr>

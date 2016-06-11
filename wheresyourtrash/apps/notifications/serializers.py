@@ -73,13 +73,13 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subscription
         fields = (
-            'slug', 
-            'id', 
-            'name', 
-            'created', 
-            'updated', 
-            'trashed', 
-            'subscription_type', 
+            'id',
+            'created',
+            'updated',
+            'trashed',
+            'subscription_type',
+            'phone_number',
+            'service_provider',
         )
 
 
