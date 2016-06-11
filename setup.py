@@ -36,6 +36,7 @@ install_requires = [
     'psycopg2>=2.5',
     'parsedatetime>=2.1',
     'twine',
+    'django_crispy_forms',
 ]
 
 # App specific libraries

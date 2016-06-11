@@ -59,6 +59,7 @@ class Common(Configuration):
         "django_extensions",
         'floppyforms',
         'rest_framework',
+        'crispy_forms',
 
     )
 
