@@ -11,7 +11,7 @@ urlpatterns = [
 #    url("^$",
 #        TemplateView.as_view(template_name='homepage.html'),
 #        name="homepage"),
-    url(r'^notifications/', include('notifications.urls')),
+    url(r'^', include('notifications.urls')),
 ]
 
 if settings.DEBUG:

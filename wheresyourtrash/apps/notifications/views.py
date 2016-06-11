@@ -1,7 +1,11 @@
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
+from django.views.generic import DetailView, ListView, UpdateView, CreateView, TemplateView
 from .models import Municipality, District, DistrictExceptions, AddressBlock, Subscription
 from .forms import MunicipalityForm, DistrictForm, DistrictExceptionsForm, AddressBlockForm, SubscriptionForm
 
+
+
+class HomeView(TemplateView):
+    template_name="home.html"
 
 class MunicipalityListView(ListView):
     model = Municipality
