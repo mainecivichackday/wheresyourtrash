@@ -64,10 +64,10 @@ class Tox(TestCommand):
 setup(
     name="wheresyourtrash",
     version=version,
-    url='http://github.com/powellc/wheresyourtrash',
+    url='http://github.com/code4maine/wheresyourtrash',
     license='BSD',
     platforms=['OS Independent'],
-    description="An wheresyourtrash for django applications.",
+    description="A Django project for wheresyourtrash.com",
     author="Colin Powell",
     author_email='colin.powell@gmail.com',
     packages=find_packages(),
