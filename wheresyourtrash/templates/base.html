@@ -5,13 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta name="theme-color" content="#2196F3">
-    <title>{% block page_title %}Where's Your Trash{% endblock %}</title>
+    <title>{% block page_title %}{% endblock %}Where's Your Trash</title>
 
     <!-- CSS  -->
     <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" >
     <link href="{% static 'css/font-awesome.min.css' %}" type="text/css" rel="stylesheet" >
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" >
 
     {# custom css #}
     {% block css %}{% endblock %}
@@ -101,7 +101,13 @@
     </div>
     <div class="footer-copyright default_color">
         <div class="container">
-            Made by <a class="white-text" href="http://github.com/code4maine">code for maine</a>. Thanks to <a class="white-text" href="http://materializecss.com/">materializecss</a> and <a class="white-text" href="http://joashpereira.com">joashpereira.com</a>
+            Made by <a class="white-text"
+                href="http://github.com/code4maine">code for maine</a>. Thanks
+            to <a class="white-text"
+                href="http://materializecss.com/">materializecss</a> and <a
+                class="white-text"
+                href="http://joashpereira.com">joashpereira.com</a>. Trash icon
+            by parkjisun via <a class="white-text" href="https://thenounproject.com/term/garbage-bag/199035/">the Noun Project</a>
         </div>
     </div>
 </footer>

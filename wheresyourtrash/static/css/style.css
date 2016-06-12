@@ -4,10 +4,7 @@
  * Made By Joash Pereira
  * Thanks for MaterializeCSS.com
  */
-
-.default_color{background-color: #2196F3 !important}
-
-.default_color_text{color: #2196F3 !important}
+html { font-family:"Open Sans";}
 
 .icon-block {
     padding: 0 15px;
@@ -37,13 +34,15 @@
 
 .brand-logo{
     position: absolute;
-    color: #fff;
     display: inline-block;
     font-size: 2.1rem;
+    font-family:Impact;
     font-style: normal;
     font-weight: 100;
-    padding: 0;
-    letter-spacing: 7px;
+    letter-spacing: 4px;
+    background: url("../img/trash-icon-small.png") center left no-repeat;
+    padding-left:55px !important;
+    white-space: nowrap;
 }
 
 .text_h2 {font-weight: 100;margin-bottom: 4%; line-height: 4.5rem;}
@@ -74,6 +73,7 @@ nav ul a {
     display: block;
     font-weight: 300;
     padding: 0px 15px;
+    letter-spacing:1px;
 }
 
 .cd-headline.type .cd-words-wrapper {
