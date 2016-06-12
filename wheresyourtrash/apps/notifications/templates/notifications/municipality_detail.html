@@ -3,23 +3,26 @@
 {% load materializecss %}
 
 {% block extra_js %}
+<script>
 $(document).ready(function() {
+  $('select').material_select();
   $('.modal-trigger').leanModal();
-});
- window.onload = function() {
-    document.getElementById('id_phone_number').style.display = 'none';
-    document.getElementById('id_service_provider').style.display = 'none';
-}
+  $('input[name="phone_number"]').parent().hide();
+  $('select[name="service_provider"]').parent().parent().hide();
 
-$("input[name='subscription_type']").change(function () {
-    console.log('yup');
-    if (this.checked) {
-        console.log('got here');
-        $("input[name='phone_number']").show();
-        $("input[name='service_provider']").show();
-    }
+  $("input[name='subscription_type']").change(function () {
+      if (this.value == "SMS") {
+          $('input[name="phone_number"]').parent().show();
+          $('select[name="service_provider"]').parent().parent().show();
+      } else {
+          $('input[name="phone_number"]').parent().hide();
+          $('select[name="service_provider"]').parent().parent().hide();
+      }
+  });
 });
+</script>
 {% endblock %}
+
 {% block content %}
   <!-- Modal Trigger -->
   <div class="row">
@@ -44,7 +47,7 @@ $("input[name='subscription_type']").change(function () {
 <div id="mapzoom" class="modal">
   <div class="modal-content">
     <h4>District Map</h4>
-    <p><img width="900" src="{{MEDIA_URL}}{{object.districts_map}}" /></p>
+    <p><img width="1200" src="{{MEDIA_URL}}{{object.districts_map}}" /></p>
   </div>
   <div class="modal-footer">
     <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>

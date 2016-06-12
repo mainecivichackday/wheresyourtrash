@@ -8,9 +8,9 @@
     <title>{% block page_title %}{% endblock %}Where's Your Trash</title>
 
     <!-- CSS  -->
-    <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'css/materialize.min.css' %}" type="text/css" rel="stylesheet">
     <link href="{% static 'css/font-awesome.min.css' %}" type="text/css" rel="stylesheet" >
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" >
 
     {# custom css #}
@@ -40,13 +40,13 @@
         <div class="container">
             <div class="nav-wrapper"><a id="logo-container" href="/" class="brand-logo">where's your trash?!</a>
             <ul id="nav-mobile" class="right side-nav">
-                <li><a href="{% url 'notifications:municipality_list' %}">new subscription</a></li>
-                <li><a href="{% url 'notifications:subscription_list' %}">my subscriptions</a></li>
 		{% if not request.user.is_authenticated %}
                 <li><a href="/#intro">how does this work?</a></li>
                 <li><a href="{% url 'account_signup' %}">signup</a></li>
                 <li><a href="{% url 'account_login' %}">login</a></li>
 		{% else %}
+                <li><a href="{% url 'notifications:municipality_list' %}">new subscription</a></li>
+                <li><a href="{% url 'notifications:subscription_list' %}">my subscriptions</a></li>
 		<li>
                 <form method="post" id="logout-form" action="{% url 'account_logout' %}">{% csrf_token %}
                 <a href="#" onclick="$('#logout-form').submit();">logout</a>
@@ -117,13 +117,9 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/materialize.js' %}"></script>
     <script src="{% static 'js/init.js' %}"></script>
-    <script>
-    $(document).ready(function() {
-        $('select').material_select();
-      });
-    </script>
  
-    {% block body_js %}{% endblock body_js %}
+    {% block extra_js %}
+    {% endblock %}
 
     </body>
 </html>
