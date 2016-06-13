@@ -25,6 +25,8 @@ class Common(Configuration):
 
     MANAGERS = ADMINS
 
+    SECRET_KEY = 'notasecretatall'
+
     # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
     sys.path.insert(0, os.path.join(BASE_DIR, 'wheresyourtrash/apps'))
@@ -219,6 +221,7 @@ class Common(Configuration):
     }
 
 
+
 class Dev(Common):
     """
     The in-development settings and the default configuration.
@@ -228,8 +231,6 @@ class Dev(Common):
     DATABASES = values.DatabaseURLValue('sqlite:///{0}'.format(
         os.path.join(Common.BASE_DIR, 'db.sqlite3'),
         environ=True))
-
-    SECRET_KEY = 'notasecretatall'
 
     #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     EMAIL_HOST = values.Value('localhost')
