@@ -16,6 +16,7 @@ install_requires = [
     'werkzeug>=0.9.4',
     'gunicorn>=0.17.4',
     'easy-thumbnails>=1.2',
+    'whitenoise>=3.2',
     'django-debug-toolbar>=1.4',
     'django-extensions>=1.6.1',
     'django-braces>=1.4.0',

@@ -47,6 +47,7 @@ class Common(Configuration):
         "django.contrib.sessions",
         "django.contrib.sites",
         "django.contrib.sitemaps",
+        'whitenoise.runserver_nostatic',
         "django.contrib.staticfiles",
 
         'custom_user',
@@ -97,6 +98,7 @@ class Common(Configuration):
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
     )
 
     STATICFILES_FINDERS = (
@@ -170,16 +172,16 @@ class Common(Configuration):
     MEDIA_ROOT = values.Value(PUBLIC_ROOT.setup('PUBLIC_ROOT'), 'media')
     MEDIA_URL = "/media/"
 
-    AWS_ACCESS_KEY_ID = values.Value()
-    AWS_SECRET_ACCESS_KEY = values.Value()
-    AWS_STORAGE_BUCKET_NAME = 'wheresyourtrash.com'
-    AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
-                   'Cache-Control': 'max-age=86400', }
+    #AWS_ACCESS_KEY_ID = values.Value()
+    #AWS_SECRET_ACCESS_KEY = values.Value()
+    #AWS_STORAGE_BUCKET_NAME = 'wheresyourtrash.com'
+    #AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
+    #               'Cache-Control': 'max-age=86400', }
+    #
+    #AWS_ENABLED = values.BooleanValue(False)
 
-    AWS_ENABLED = values.BooleanValue(False)
-
-    if AWS_ENABLED:
-        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    #if AWS_ENABLED:
+    #    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
     # Account activations automatically expire after this period
     ACCOUNT_ACTIVATION_DAYS = 14
@@ -259,6 +261,7 @@ class Prod(Common):
     DEBUG = False
 
     SECRET_KEY = values.SecretValue()
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
     EMAIL_HOST = values.Value()
     EMAIL_HOST_USER = values.Value()
