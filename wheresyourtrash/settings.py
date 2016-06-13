@@ -169,7 +169,7 @@ class Common(Configuration):
         os.path.join(BASE_DIR, "wheresyourtrash/static"),
     )
 
-    MEDIA_ROOT = values.Value(PUBLIC_ROOT.setup('PUBLIC_ROOT'), 'media')
+    MEDIA_ROOT = os.path.join(PUBLIC_ROOT.setup('PUBLIC_ROOT'), 'media')
     MEDIA_URL = "/media/"
 
     #AWS_ACCESS_KEY_ID = values.Value()
