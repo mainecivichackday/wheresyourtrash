@@ -11,6 +11,7 @@ import os
 import sys
 
 from configurations import Configuration, values
+from celery.schedules import crontab
 
 
 class Common(Configuration):
@@ -125,6 +126,13 @@ class Common(Configuration):
     BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
+    CELERYBEAT_SCHEDULE = {
+        'send_notifications_at_6am': {
+            'task': 'notifications.tasks.send_notifications',
+            'schedule': crontab(minute=0, hour=6),
+        },
+    }
+
     NEVERCACHE_KEY = values.Value('klladsf-wefkjlwef-wekjlwef--wefjlkjfslkxvl')
 
     #CACHES = values.CacheURLValue('memcached://127.0.0.1:11211')
@@ -134,7 +142,7 @@ class Common(Configuration):
 
     LANGUAGE_CODE = 'en-us'
 
-    TIME_ZONE = 'America/New_York'
+    TIME_ZONE = values.Value('America/New_York')
 
     USE_I18N = True
 

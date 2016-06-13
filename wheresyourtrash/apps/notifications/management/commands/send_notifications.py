@@ -18,13 +18,18 @@ class Command(BaseCommand):
         for sub in Subscription.objects.all():
             if sub.day_before_pickup:
                 logger.info('Sending notification to {0}'.format(sub.user))
-                template_name = sub.district.district_type.lower() + '_notification'
+                pickup_type = sub.district.district_type.lower() # + '_notification'
                 if sub.subscription_type == 'SMS':
                     recipient = sub.clean_phone_number + '@' + sub.service_provider.email_root
                 else:
                     recipient = sub.user.email
-                txt_content = 'Is your trash outside and ready?'
-                email = EmailMessage('Notification from WYT.com', txt_content, FROM_EMAIL, [recipient])
+
+                if sub.district.district_type == 'TRASH':
+                    pickup_str = 'trash'
+                else:
+                    pickup_str = 'recycling'
+                txt_content = 'Is your {0} outside and ready? The folks from {1} are going to be by tomorrow!'.format(pickup_str, sub.district.municipality.name)
+                email = EmailMessage("Where's Your Trash?", txt_content, FROM_EMAIL, [recipient])
                 email.send()
 
                 '''

@@ -28,6 +28,7 @@ install_requires = [
     'raven>=5.2.0',
     'factory_boy>=2.5.1',
     'boto>=2.39.0',
+    'celery[redis]>=3.1.23',
     'django-storages>=1.1.8',
     'djangorestframework>=3.3.2',
     'django-cors-headers>=1.1.0',
