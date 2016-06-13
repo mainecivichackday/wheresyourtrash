@@ -1,0 +1,22 @@
+[Unit]
+Description={{ service_name }} Beat
+After=network.target
+
+[Service]
+Type=idle
+PIDFile=/var/run/{{deployment_name}}/beat.pid
+User={{ deployment_name }}
+Environment=DJANGO_CONFIGURATION={{ django_state }}
+Environment=DJANGO_SECRET_KEY="{{ django_secret_key }}"
+Environment=DJANGO_PUBLIC_ROOT="{{deployment_path}}/{{deployment_name}}/public"
+Environment=DATABASE_URL={{ django_database }}
+Environment=DJANGO_AWS_ACCESS_KEY={{ aws_access_key }}
+Environment=DJANGO_AWS_SECRET_ACCESS_KEY={{ aws_access_key }}
+Environment=DJANGO_BROKER_TRANSPORT={{ celery_broker_transport }}
+Environment=DJANGO_BROKER_URL={{ celery_broker_url }}
+ExecStart={{deployment_path}}/{{deployment_name}}/venv/bin/celery -A {{ app_name }} beat --logfile /var/log/{{deployment_name}}/beat.log --pid /var/run/{{deployment_name}}/beat.pid -l info
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target

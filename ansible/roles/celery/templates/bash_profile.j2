@@ -1,0 +1,23 @@
+source ~/venv/bin/activate
+
+# BASIC CONFIG
+export DJANGO_CONFIGURATION={{ django_state }}
+export DJANGO_SECRET_KEY="{{ django_secret_key }}"
+export DATABASE_URL="{{ django_database }}"
+
+export DJANGO_PUBLIC_ROOT="{{deployment_path}}/{{deployment_name}}/public"
+
+# AWS CONFIG
+export DJANGO_AWS_ACCESS_KEY_ID="{{ aws_access_key }}"
+export DJANGO_AWS_SECRET_ACCESS_KEY="{{ aws_secret_key }}"
+
+# LOGGING CONFIG
+export DJANGO_LOG_LEVEL="{{ django_log_level }}"
+export DJANGO_DSN_VALUE="{{ django_sentry_code }}"
+
+{% if celery_enabled %}
+# CELERY CONFIG
+export DJANGO_BROKER_TRANSPORT="{{ celery_broker_transport }}"
+export DJANGO_BROKER_URL="{{ celery_broker_url }}"
+{% endif %}
+

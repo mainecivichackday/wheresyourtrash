@@ -1,0 +1,10 @@
+---
+# Launch script
+- hosts: all
+  gather_facts: False
+  user: ubuntu
+  become: True
+  roles:
+    - role: common
+    - role: postgresql
+    - role: celery 

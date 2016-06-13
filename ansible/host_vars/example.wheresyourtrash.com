@@ -1,0 +1,30 @@
+---
+service_name: "Wheres Your Trash Django Application"
+subdomain: www
+domain_name: wheresyourtrash.org
+ssl_enabled: False
+app_name: wheresyourtrash
+deployment_path: /home
+deployment_name: wyt_production 
+pypi_user: deploy
+pypi_pass: TunisRootbearfarm
+gunicorn_workers: 2
+django_state: Prod
+django_port: 10910
+django_sentry_code: https://03815f70b5e74040a1819138b3bfb938:3e086c7179334be5b25ffa26bd4c061a@app.getsentry.com/67627
+django_secret_key: dontuseme
+database_pass: postgrespassfail
+database_exists: false
+django_admin: admin@wheresyourtrash.com
+django_pass: changeme
+django_database: postgres://{{deployment_name}}:{{database_pass}}@localhost/{{deployment_name}}
+email_host: smtp.sparkpostmail.com
+email_host_user: SMTP_Injection
+email_host_password: add_your_pass_here
+email_host_port: 587
+use_aws: true
+bower_enabled: false
+aws_access_key: AWSKEY
+aws_secret_key: AWSSECRET
+celery_enabled: true
+celerybeat_enabled: true
