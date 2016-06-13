@@ -1,15 +1,14 @@
-Change Log for mljtrust
-====================================
+= CHANGELOG
 
-Dev
----
+== 2.1.0
 
+  * Pulling twine and wheel out of setup.py
+  * Moving changelog versions
   * Remove unused ansible roles
   * Adding more robust ansible roles
 
 
-2.0.0
------
+== 2.0.0
 
   * Adding celery and celerybeat tasks to settings
   * Adding a task to send out emails for notifications
@@ -21,25 +20,19 @@ Dev
   * Adding a cfg file for twine
 
 
-1.0.0
------
+== 1.0.0
 
   * Update setup file
-  * Merge branch 'master' of github.com:code4maine/wheresyourtrash
   * Update templates and views
   * updated base
-  * Merge branch 'master' of https://github.com/Code4Maine/wheresyourtrash
   * initial retemplating
   * Ading initial data
-  * Merge branch 'master' of github.com:code4maine/wheresyourtrash
   * Fix unicode function in email2sms and add fixtures
   * added setup for home page
-  * Merge branch 'master' of https://github.com/Code4Maine/wheresyourtrash
   * django 1.9ified
   * Adding migrations for email2sms and notifications
   * Fixing a few Py3 issues with notifications and adding email2sms app
   * added crispy forms
-  * Merge branch 'master' of https://github.com/Code4Maine/wheresyourtrash
   * added notifications to urls and fixed forms  bug
   * Updating project to use Python 3 by default
   * rename templates
