@@ -4,3 +4,4 @@
 
 twine==1.6.4
 wheel==0.29
+changelogbuilder==1.0.0

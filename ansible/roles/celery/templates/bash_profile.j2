@@ -14,10 +14,3 @@ export DJANGO_AWS_SECRET_ACCESS_KEY="{{ aws_secret_key }}"
 # LOGGING CONFIG
 export DJANGO_LOG_LEVEL="{{ django_log_level }}"
 export DJANGO_DSN_VALUE="{{ django_sentry_code }}"
-
-{% if celery_enabled %}
-# CELERY CONFIG
-export DJANGO_BROKER_TRANSPORT="{{ celery_broker_transport }}"
-export DJANGO_BROKER_URL="{{ celery_broker_url }}"
-{% endif %}
-

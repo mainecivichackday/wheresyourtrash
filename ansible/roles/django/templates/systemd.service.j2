@@ -9,6 +9,7 @@ User={{ deployment_name }}
 Environment=DJANGO_CONFIGURATION={{ django_state }}
 Environment=DJANGO_SECRET_KEY="{{ django_secret_key }}"
 Environment=DJANGO_PUBLIC_ROOT="{{deployment_path}}/{{deployment_name}}/public"
+Environment=DATABASE_URL={{ django_database }}
 Environment=DJANGO_AWS_ACCESS_KEY_ID={{ aws_access_key }}
 Environment=DJANGO_AWS_SECRET_ACCESS_KEY={{ aws_secret_key }}
 Environment=DJANGO_LOG_LEVEL={{ django_log_level }}

@@ -113,23 +113,6 @@
       - deploy
       - reconfigure
 
-  - name: Ensure search index has been rebuilt
-    shell: source ~/.bash_profile && {{app_name}} rebuild_index --noinput
-    become_user: "{{deployment_name}}"
-    args:
-      executable: /bin/bash
-    tags:
-      - reconfigure
-      - rebuild
-
-  - name: Ensure search index is up-to-date
-    shell: source ~/.bash_profile && {{app_name}} update_index
-    become_user: "{{deployment_name}}"
-    args:
-      executable: /bin/bash
-    tags:
-      - deploy
-
   # Install Nginx configuration for app and restart
   - name: Ensure NGINX application configuration is up to date
     template: src=nginx.conf.j2 dest=/etc/nginx/sites-enabled/{{subdomain}}.{{domain_name}}.conf

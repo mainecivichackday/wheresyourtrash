@@ -32,8 +32,6 @@
       - static
       - media
       - templates
-      - zips
-      - tmp
 
   - name: Ensure the project log directory exists
     file: state=directory path={{deployment_path}}/{{deployment_name}}/public
@@ -43,8 +41,9 @@
     template: src=bash_profile.j2  dest={{deployment_path}}/{{deployment_name}}/.bash_profile
     tags:
       - deploy
+      - reconfigure
 
-  # Install app from pypi.fiveq.com
+  # Install specific app version from pypi.fiveq.com
   - name: Ensure app is at targeted version
     pip: 
       name={{app_name}}
@@ -53,6 +52,20 @@
       virtualenv_python="python3"
       virtualenv_site_packages="yes"
     become_user: "{{deployment_name}}"
+    when: app_version is defined
+    tags:
+      - deploy
+
+  # Install app from pypi.fiveq.com
+  - name: Ensure app is at latest version
+    pip: 
+      name={{app_name}}
+      extra_args="--upgrade"
+      virtualenv="{{deployment_path}}/{{deployment_name}}/venv"
+      virtualenv_python="python3"
+      virtualenv_site_packages="yes"
+    become_user: "{{deployment_name}}"
+    when: app_version is not defined
     tags:
       - deploy
 
@@ -61,8 +74,6 @@
     postgresql_db: db={{deployment_name}}
     become_user: postgres
     when: not postgis_required
-    tags:
-      - deploy
 
   - name: Create the PostGIS database.
     postgresql_db: db={{deployment_name}} template=postgis_template
@@ -75,14 +86,6 @@
     become_user: postgres
     tags:
       - deploy
-
-  # Grab recent mirror of database
-  - name: Ensure we have a recent copy of the app database
-    shell: source ~/.bash_profile && {{app_name}} clone_production_db
-    become_user: "{{deployment_name}}"
-    when: database_exists
-    args:
-      executable: /bin/bash
 
   # Run migrations
   - name: Ensure migrations are up to date
