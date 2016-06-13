@@ -56,8 +56,8 @@ class AddressBlockAdminForm(forms.ModelForm):
 
 class AddressBlockAdmin(admin.ModelAdmin):
     form = AddressBlockAdminForm
-    list_display = ['id', 'created', 'updated', 'trashed', 'address_range', 'street']
-    readonly_fields = ['id', 'created', 'updated', 'trashed', 'address_range', 'street']
+    list_display = ['id', 'created', 'updated', 'address_range', 'street']
+    readonly_fields = ['id', 'created', 'updated', 'address_range', 'street']
 
 admin.site.register(AddressBlock, AddressBlockAdmin)
 

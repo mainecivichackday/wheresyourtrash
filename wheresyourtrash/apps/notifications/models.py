@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db import models
 from django.utils.translation import ugettext as _
 from localflavor.us.models import USStateField, USZipCodeField, PhoneNumberField
@@ -26,67 +26,60 @@ SUB_TYPES = (
 )
 
 
-# class BaseMixin(models.Model):
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     slug = models.SlugField(blank=True, null=True)
-#     name = models.CharField(_("Name"), max_length=255)
-#     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
-#     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
-
-#     class Meta:
-#         abstract = True
-
-#     def __init__(self, *args, **kwargs):
-#         super(BaseMixin, self).__init__(*args, **kwargs)
-
-#     # Override save method.
-#     def save(self,  *args, **kwargs):
-#         update = kwargs.pop('update', False)
-#         if update:
-#             self.updated= datetime.now()
-
-#         super(BaseMixin, self).save(*args, **kwargs)
-
-#     def __str__(self):
-#         return u'{0}'.format(self.name)
-
-#     def save(self, *args, **kwargs):
-#         if not self.id:
-#             self.slug = slugify(self.name, self.state)
-#         super(BaseMixin, self).save(*args, **kwargs)
-
-
-# class TrashableMixin(BaseMixin):
-#     trashed = models.BooleanField(default=False, db_index=True)
-
-#     objects = TrashManager()
-
-#     class Meta:
-#         abstract = True
-
-#     def __init__(self, *args, **kwargs):
-#         super(TrashableMixin, self).__init__(*args, **kwargs)
-
-#     # Override delete method.
-#     def delete(self, **kwargs):
-#         self._forced_delete = kwargs.pop('forced', False)
-#         if not self._forced_delete:
-#             model = self.__class__
-#             kwargs.update({'trashed': True})
-#             model.objects.using(self._db).filter(
-#                     pk=self.id).update(**kwargs)
-#         else:
-#             super(TrashableMixin, self).delete(**kwargs)
-
-
-class Municipality(models.Model):
+class BaseMixin(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = extension_fields.AutoSlugField(populate_from='name', blank=True)
+    slug = models.SlugField(blank=True, null=True)
     name = models.CharField(_("Name"), max_length=255)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
+
+    class Meta:
+        abstract = True
+
+    def __init__(self, *args, **kwargs):
+        super(BaseMixin, self).__init__(*args, **kwargs)
+
+    # Override save method.
+    def save(self,  *args, **kwargs):
+        update = kwargs.pop('update', False)
+        if update:
+            self.updated= datetime.now()
+
+        super(BaseMixin, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return u'{0}'.format(self.name)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.name, self.state)
+        super(BaseMixin, self).save(*args, **kwargs)
+
+
+class TrashableMixin(BaseMixin):
     trashed = models.BooleanField(default=False, db_index=True)
 
+    objects = TrashManager()
+
+    class Meta:
+        abstract = True
+
+    def __init__(self, *args, **kwargs):
+        super(TrashableMixin, self).__init__(*args, **kwargs)
+
+    # Override delete method.
+    def delete(self, **kwargs):
+        self._forced_delete = kwargs.pop('forced', False)
+        if not self._forced_delete:
+            model = self.__class__
+            kwargs.update({'trashed': True})
+            model.objects.using(self._db).filter(
+                    pk=self.id).update(**kwargs)
+        else:
+            super(TrashableMixin, self).delete(**kwargs)
+
+
+class Municipality(TrashableMixin):
     districts_map = models.ImageField(_("Districts Map"), upload_to="notifications/maps/", blank=True, null=True)
     state = USStateField()
     population = models.IntegerField(_("Population"), null=True, blank=True)
@@ -100,24 +93,7 @@ class Municipality(models.Model):
     def get_absolute_url(self):
         return reverse('notifications:municipality_detail', args=[str(self.slug)])
 
-    def delete(self, **kwargs):
-        self._forced_delete = kwargs.pop('forced', False)
-        if not self._forced_delete:
-            model = self.__class__
-            kwargs.update({'trashed': True})
-            model.objects.using(self._db).filter(
-                    pk=self.id).update(**kwargs)
-        else:
-            super(Municipality, self).delete(**kwargs)
-
-class District(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = extension_fields.AutoSlugField(populate_from='name', blank=True)
-    name = models.CharField(_("Name"), max_length=255)
-    created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
-    updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
-    trashed = models.BooleanField(default=False, db_index=True)
-
+class District(TrashableMixin):
     municipality = models.ForeignKey(Municipality)
     district_type = models.CharField(_("District type"), max_length=50,
                                      choices=DISTRICT_TYPES)
@@ -128,15 +104,6 @@ class District(models.Model):
         return u'{0} {1} district for {2}'.format(self.name, self.get_district_type_display(),
                                               self.municipality)
 
-    def delete(self, **kwargs):
-        self._forced_delete = kwargs.pop('forced', False)
-        if not self._forced_delete:
-            model = self.__class__
-            kwargs.update({'trashed': True})
-            model.objects.using(self._db).filter(
-                    pk=self.id).update(**kwargs)
-        else:
-            super(District, self).delete(**kwargs)
 
     @property
     def next_pickup(self):
@@ -157,21 +124,13 @@ class District(models.Model):
                 next_date = new_date
         return next_date.date()
 
-class DistrictExceptions(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = extension_fields.AutoSlugField(populate_from='name', blank=True)
-    name = models.CharField(_("Name"), max_length=255)
-    created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
-    updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
-    trashed = models.BooleanField(default=False, db_index=True)
-
+class DistrictExceptions(TrashableMixin):
     district = models.ForeignKey(District)
     date = models.DateField(_("Date"))
     new_date = models.DateField(_("New date"), blank=True, null=True)
 
     def __str__(self):
         return u'{0}'.format(self.name)
-
 
     @property
     def cancelled(self):
@@ -180,23 +139,11 @@ class DistrictExceptions(models.Model):
             cancelled = True
         return cancelled
 
-    def delete(self, **kwargs):
-        self._forced_delete = kwargs.pop('forced', False)
-        if not self._forced_delete:
-            model = self.__class__
-            kwargs.update({'trashed': True})
-            model.objects.using(self._db).filter(
-                    pk=self.id).update(**kwargs)
-        else:
-            super(DistrictExceptions, self).delete(**kwargs)
-
 
 class AddressBlock(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
-    trashed = models.BooleanField(default=False, db_index=True)
-
     district = models.ForeignKey(District)
     address_range = models.CharField(_("Address range"), max_length=255)
     street = models.CharField(_("Street"), max_length=255)
@@ -204,22 +151,11 @@ class AddressBlock(models.Model):
     def __str__(self):
         return u'{0} - {1} {2}'.format(self.district, self.address_range, self.street)
 
-    def delete(self, **kwargs):
-        self._forced_delete = kwargs.pop('forced', False)
-        if not self._forced_delete:
-            model = self.__class
-            kwargs.update({'trashed': True})
-            model.objects.using(self._db).filter(
-                    pk=self.id).update(**kwargs)
-        else:
-            super(AddressBlock, self).delete(**kwargs)
-
 class Subscription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField(_("Created"), auto_now_add=True, db_index=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True, db_index=True)
     trashed = models.BooleanField(default=False, db_index=True)
-
     user = models.ForeignKey(User)
     subscription_type = models.CharField(_("Type"), choices=SUB_TYPES,
                                          max_length=20)
@@ -227,6 +163,29 @@ class Subscription(models.Model):
     phone_number = PhoneNumberField(blank=True, null=True)
     district = models.ForeignKey(District)
     suspended = models.BooleanField(default=False)
+
+    @property
+    def clean_phone_number(self):
+        return self.phone_number.replace(' ','').replace('-','')
+
+    @property
+    def day_before_pickup(self):
+        '''Boolean return as to whether a notification should go'''
+        today = datetime.today().date()
+        if self.district.next_pickup - today == timedelta(1):
+            return True
+        else:
+            return False
+
+    @property
+    def day_of_pickup(self):
+        '''Boolean return as to whether a notification should go'''
+        today = datetime.today().date()
+        if self.district.next_pickup - today == timedelta(7):
+            return True
+        else:
+            return False
+
 
     def __str__(self):
         return u'{0} notifications for {1}'.format(self.subscription_type,

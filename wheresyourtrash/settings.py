@@ -121,6 +121,10 @@ class Common(Configuration):
         os.path.join(BASE_DIR, 'db.sqlite3'),
         environ=True))
 
+    BROKER_URL = values.Value('redis://localhost:6379/0')
+    BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
     NEVERCACHE_KEY = values.Value('klladsf-wefkjlwef-wekjlwef--wefjlkjfslkxvl')
 
     #CACHES = values.CacheURLValue('memcached://127.0.0.1:11211')
@@ -148,25 +152,26 @@ class Common(Configuration):
 
     CACHE_MIDDLEWARE_KEY_PREFIX = PROJECT_DIRNAME
 
-    MEDIA_URL = "/media/"
-
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')
-
+    PUBLIC_ROOT = values.Value(os.path.join(BASE_DIR, 'public'))
+    STATIC_ROOT = os.path.join(PUBLIC_ROOT.setup('PUBLIC_ROOT'), 'static')
     STATIC_URL = '/static/'
-
-    STATIC_ROOT = os.path.join(BASE_DIR, 'public/static')
-
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, "wheresyourtrash/static"),
     )
 
-    #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    MEDIA_ROOT = values.Value(PUBLIC_ROOT.setup('PUBLIC_ROOT'), 'media')
+    MEDIA_URL = "/media/"
 
     AWS_ACCESS_KEY_ID = values.Value()
     AWS_SECRET_ACCESS_KEY = values.Value()
-    AWS_STORAGE_BUCKET_NAME = 'example.com'
+    AWS_STORAGE_BUCKET_NAME = 'wheresyourtrash.com'
     AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
                    'Cache-Control': 'max-age=86400', }
+
+    AWS_ENABLED = values.BooleanValue(False)
+
+    if AWS_ENABLED:
+        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
     # Account activations automatically expire after this period
     ACCOUNT_ACTIVATION_DAYS = 14
@@ -216,7 +221,13 @@ class Dev(Common):
 
     SECRET_KEY = 'notasecretatall'
 
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_HOST = values.Value('localhost')
+    EMAIL_HOST_USER = values.Value()
+    EMAIL_HOST_PASSWORD = values.Value()
+    EMAIL_PORT = values.Value('1025')
+    EMAIL_USE_TLS = values.BooleanValue(False)
+
 
     INSTALLED_APPS = Common.INSTALLED_APPS + ('debug_toolbar',)
 

@@ -25,7 +25,7 @@ class DistrictExceptionsForm(forms.ModelForm):
 class AddressBlockForm(forms.ModelForm):
     class Meta:
         model = AddressBlock
-        fields = ['trashed', 'address_range', 'street', 'district']
+        fields = ['address_range', 'street', 'district']
 
 
 class SubscriptionForm(forms.ModelForm):
