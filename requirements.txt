@@ -1,5 +1,6 @@
-
---index-url http://pypi.onec.me/pypi/
 --index-url https://pypi.python.org/simple/
 
 -e .
+
+twine==1.6.4
+wheel==0.29

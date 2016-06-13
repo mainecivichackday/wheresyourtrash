@@ -37,8 +37,6 @@ install_requires = [
     'django-templated-email>=0.4.9',
     'psycopg2>=2.5',
     'parsedatetime>=2.1',
-    'twine',
-    'wheel>=0.29.0',
     'django_crispy_forms',
 ]
 
