@@ -17,8 +17,9 @@ from celery.schedules import crontab
 class Common(Configuration):
 
     ADMINS = (
-        ('Admin', 'info@example.com'),
+        ('Admin', 'colin.powell@gmail.com'),
     )
+    FROM_EMAIL = "Notification from Wheres's Your Trash <notifications@wheresyourtrash.com>"
 
     # You'll likely want to add your own auth model.
     AUTH_USER_MODEL = 'custom_user.EmailUser'
