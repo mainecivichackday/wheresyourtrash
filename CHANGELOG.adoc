@@ -1,4 +1,8 @@
 = CHANGELOG
+== 2.1.3
+
+  * Removing whitenoise for now, does not work
+
 
 == 2.1.2
 
