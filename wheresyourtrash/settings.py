@@ -50,7 +50,7 @@ class Common(Configuration):
         "django.contrib.sessions",
         "django.contrib.sites",
         "django.contrib.sitemaps",
-        'whitenoise.runserver_nostatic',
+        #'whitenoise.runserver_nostatic',
         "django.contrib.staticfiles",
 
         'custom_user',
@@ -101,7 +101,7 @@ class Common(Configuration):
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'whitenoise.middleware.WhiteNoiseMiddleware',
+        #'whitenoise.middleware.WhiteNoiseMiddleware',
     )
 
     STATICFILES_FINDERS = (
@@ -263,7 +263,7 @@ class Prod(Common):
     DEBUG = False
 
     SECRET_KEY = values.SecretValue()
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
     EMAIL_HOST = values.Value()
     EMAIL_HOST_USER = values.Value()
