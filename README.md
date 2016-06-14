@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/mainecivichackday/wheresyourtrash.png?label=ready&title=Ready)](https://waffle.io/mainecivichackday/wheresyourtrash)
 Where's Your Trash?
 ===================
 
