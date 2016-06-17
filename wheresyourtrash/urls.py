@@ -2,12 +2,15 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
+from wheresyourtrash.api import router
+
 from django.contrib import admin
 admin.autodiscover()
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/v1/', include(router.urls)),
     url(r'^', include('notifications.urls', namespace='notifications')),
 ]
 

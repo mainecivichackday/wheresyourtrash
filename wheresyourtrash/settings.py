@@ -247,6 +247,19 @@ class Dev(Common):
 
     INSTALLED_APPS = Common.INSTALLED_APPS + ('debug_toolbar',)
 
+class Test(Common):
+    """
+    The test settings and the default configuration.
+    """
+    DEBUG = False
+
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    #EMAIL_HOST = values.Value('localhost')
+    #EMAIL_HOST_USER = values.Value()
+    #EMAIL_HOST_PASSWORD = values.Value()
+    #EMAIL_PORT = values.Value('1025')
+    #EMAIL_USE_TLS = values.BooleanValue(False)
+
 
 class Stage(Common):
     DEBUG = True
@@ -284,3 +297,4 @@ class Prod(Common):
 
     INSTALLED_APPS = Common.INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',)
+
