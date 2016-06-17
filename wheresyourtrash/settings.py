@@ -64,6 +64,7 @@ class Common(Configuration):
         'rest_framework',
         'crispy_forms',
         'materializecssform',
+        'analytical',
 
 
         # Custom apps
@@ -108,6 +109,10 @@ class Common(Configuration):
         "django.contrib.staticfiles.finders.FileSystemFinder",
         "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     )
+
+    GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-79494669-1'
+    GOOGLE_ANALYTICS_SITE_SPEED = True
+    GOOGLE_ANALYTICS_ANONYMIZE_IP = True
 
     ACCOUNT_AUTHENTICATION_METHOD = "email"
     ACCOUNT_USER_MODEL_USERNAME_FIELD = None

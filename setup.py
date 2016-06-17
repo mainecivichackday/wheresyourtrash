@@ -26,6 +26,7 @@ install_requires = [
     'django-custom-user>=0.6',
     'django-nose>=1.4.1',
     'django-materializecss-form>=1.0.1',
+    'django-analytical>=2.2',
     'raven>=5.2.0',
     'factory_boy>=2.5.1',
     'boto>=2.39.0',
