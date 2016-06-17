@@ -4,6 +4,94 @@ upstream backend {
     server 127.0.0.1:{{ django_port }}; 
 }
 
+{% if ssl_enabled %}
+server {
+        listen  443 ssl;
+
+        {% if subdomain %}
+        server_name  {{subdomain}}.{{domain_name}};
+        {% else %}
+        server_name  {{domain_name}};
+        {% endif %}
+
+        access_log  /var/log/{{deployment_name}}/nginx.access.log;
+        error_log /var/log/{{deployment_name}}/nginx.error.log;
+        keepalive_timeout 3;
+        root {{deployment_path}}/{{deployment_name}}/public;                                                                  
+
+        ssl_certificate  /etc/letsencrypt/live/{{domain_name}}/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/{{domain_name}}/privkey.pem;
+
+        location /media {
+             proxy_cache {{deployment_name}}_cache;
+             proxy_cache_revalidate on;
+             proxy_cache_min_uses 3;
+             proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+             proxy_cache_lock on;
+             alias {{deployment_path}}/{{deployment_name}}/public/media;
+             access_log off;
+             expires 31d;
+        }
+
+        location /static {
+             proxy_cache {{deployment_name}}_cache;
+             proxy_cache_revalidate on;
+             proxy_cache_min_uses 3;
+             proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+             proxy_cache_lock on;
+             alias {{deployment_path}}/{{deployment_name}}/public/static;
+      	     access_log off;
+             expires 31d;
+        }
+
+        location / {
+                proxy_cache {{deployment_name}}_cache;
+                proxy_cache_revalidate on;
+                proxy_cache_min_uses 3;
+                proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+                proxy_cache_lock on;
+
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Url-Scheme $scheme;
+                proxy_redirect off;
+
+                proxy_pass http://backend;
+                break;
+        }
+
+        error_page 500 502 503 504 /500.html;
+        location = /500.html {
+            root {{deployment_path}}/{{deployment_name}}/public/templates;
+        }
+}
+
+{% if subdomain %}
+server { 
+        listen 80;
+        server_name {{subdomain}}.{{domain_name}} {{domain_name}};
+        return 301 https://{{subdomain}}.{{domain_name}}$request_uri;
+}
+
+server { 
+        listen 443 ssl;
+        server_name {{domain_name}};
+        ssl_certificate  /etc/letsencrypt/live/{{domain_name}}/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/{{domain_name}}/privkey.pem;
+
+        return 301 https://{{subdomain}}.{{domain_name}}$request_uri;
+}
+{% else %}
+server { 
+        listen 80;
+        server_name {{domain_name}};
+        return 301 https://{{domain_name}}$request_uri;
+}
+{% endif %}
+
+{% else %}
+
 server {
         listen 80;
 
@@ -69,67 +157,11 @@ server {
         }
 }
 
-
-{% if ssl_enabled %}
-server {
-        listen  443 ssl;
-
-        {% if subdomain %}
-        server_name  {{subdomain}}{{domain_name}};
-        {% else %}
-        server_name  {{domain_name}};
-        {% endif %}
-
-        access_log  /var/log/{{deployment_name}}/nginx.access.log;
-        error_log /var/log/{{deployment_name}}/nginx.error.log;
-        keepalive_timeout 3;
-        root {{deployment_path}}/{{deployment_name}}/public;                                                                  
-
-        ssl_certificate  /etc/nginx/ssl/server.crt;
-        ssl_certificate_key /etc/nginx/ssl/server.key;
-
-        location /media {
-             proxy_cache {{deployment_name}}_cache;
-             proxy_cache_revalidate on;
-             proxy_cache_min_uses 3;
-             proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
-             proxy_cache_lock on;
-             alias {{deployment_path}}/{{deployment_name}}/public/media;
-             access_log off;
-             expires 31d;
-        }
-
-        location /static {
-             proxy_cache {{deployment_name}}_cache;
-             proxy_cache_revalidate on;
-             proxy_cache_min_uses 3;
-             proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
-             proxy_cache_lock on;
-             alias {{deployment_path}}/{{deployment_name}}/public/static;
-      	     access_log off;
-             expires 31d;
-        }
-
-        location / {
-                proxy_cache {{deployment_name}}_cache;
-                proxy_cache_revalidate on;
-                proxy_cache_min_uses 3;
-                proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
-                proxy_cache_lock on;
-
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header Host $http_host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Url-Scheme $scheme;
-                proxy_redirect off;
-
-                proxy_pass http://backend;
-                break;
-        }
-
-        error_page 500 502 503 504 /500.html;
-        location = /500.html {
-            root {{deployment_path}}/{{deployment_name}}/public/templates;
-        }
+server { 
+        listen 80;
+        server_name {{domain_name}};
+        return 301 http://{{subdomain}}.{{domain_name}}$request_uri;
 }
+
+
 {% endif %}

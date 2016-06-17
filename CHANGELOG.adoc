@@ -1,4 +1,33 @@
 = CHANGELOG
+== 2.1.3
+
+  * Removing whitenoise for now, does not work
+
+
+== 2.1.2
+
+  * Adding proper from email address so sending email works
+  * Updating the ansible hosts file
+  * Removing crednetials from ansible host_vars and ignoring non-templated file
+  * Update ansible configuration for bash and nginx
+  * Revert "Add SSL settings to the nginx template"
+  * This reverts commit eeffe9618ddacc79e7d4ea623b9b3124034a9491.
+  * Merge pull request #3 from waffle-iron/master
+  * waffle.io Badge
+  * add waffle.io badge
+  * Add SSL settings to the nginx template
+  * Remove status.gif from styles.css that's missing
+  * Adding woff2 font for fontawesome
+  * Move secret key up to default, but unset
+
+
+== 2.1.1
+
+  * Fixing bug in settings with MEDIA_ROOT
+  * Add whitenoise for static file delivery
+  * Updating ansible roles to work properly and adding changelogbuilder to reqs
+
+
 
 == 2.1.0
 
