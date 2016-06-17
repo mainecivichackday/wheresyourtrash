@@ -174,16 +174,13 @@ class Common(Configuration):
     MEDIA_ROOT = os.path.join(PUBLIC_ROOT.setup('PUBLIC_ROOT'), 'media')
     MEDIA_URL = "/media/"
 
-    #AWS_ACCESS_KEY_ID = values.Value()
-    #AWS_SECRET_ACCESS_KEY = values.Value()
-    #AWS_STORAGE_BUCKET_NAME = 'wheresyourtrash.com'
-    #AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
-    #               'Cache-Control': 'max-age=86400', }
-    #
-    #AWS_ENABLED = values.BooleanValue(False)
+    AWS_ACCESS_KEY_ID = values.Value()
+    AWS_SECRET_ACCESS_KEY = values.Value()
+    AWS_STORAGE_BUCKET_NAME = 'wheresyourtrash.com'
+    AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
+                   'Cache-Control': 'max-age=86400', }
 
-    #if AWS_ENABLED:
-    #    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
     # Account activations automatically expire after this period
     ACCOUNT_ACTIVATION_DAYS = 14
