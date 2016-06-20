@@ -253,6 +253,10 @@ class Test(Common):
     """
     DEBUG = False
 
+    DATABASES = values.DatabaseURLValue('sqlite:///{0}'.format(
+        os.path.join(Common.BASE_DIR, 'db.sqlite3'),
+        environ=True))
+
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     #EMAIL_HOST = values.Value('localhost')
     #EMAIL_HOST_USER = values.Value()
@@ -297,4 +301,10 @@ class Prod(Common):
 
     INSTALLED_APPS = Common.INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',)
+
+import sys
+if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
+    DATABASES = values.DatabaseURLValue('sqlite:///{0}'.format(
+        os.path.join(Common.BASE_DIR, 'db.sqlite3'),
+        environ=True))
 

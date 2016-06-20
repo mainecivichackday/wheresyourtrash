@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import uuid
 from datetime import datetime, timedelta
+from django.utils import timezone
 from django.db import models
 from django.utils.translation import ugettext as _
 from localflavor.us.models import USStateField, USZipCodeField, PhoneNumberField
@@ -43,7 +44,7 @@ class BaseMixin(models.Model):
     def save(self,  *args, **kwargs):
         update = kwargs.pop('update', False)
         if update:
-            self.updated= datetime.now()
+            self.updated= timezone.now()
 
         super(BaseMixin, self).save(*args, **kwargs)
 
@@ -107,10 +108,10 @@ class District(TrashableMixin):
 
     @property
     def next_pickup(self):
-        r = RecurringEvent(now_date=datetime.now())
+        r = RecurringEvent(now_date=timezone.now())
         r.parse(self.pickup_time)
         rr = rrule.rrulestr(r.get_RFC_rrule())
-        next_date = rr.after(datetime.now())
+        next_date = rr.after(timezone.now())
         try:
             date_exception = DistrictExceptions.objects.get(date=next_date,
                                                             district=self)
@@ -171,7 +172,7 @@ class Subscription(models.Model):
     @property
     def day_before_pickup(self):
         '''Boolean return as to whether a notification should go'''
-        today = datetime.today().date()
+        today = timezone.today().date()
         if self.district.next_pickup - today == timedelta(1):
             return True
         else:
@@ -180,7 +181,7 @@ class Subscription(models.Model):
     @property
     def day_of_pickup(self):
         '''Boolean return as to whether a notification should go'''
-        today = datetime.today().date()
+        today = timezone.today().date()
         if self.district.next_pickup - today == timedelta(7):
             return True
         else:
