@@ -101,7 +101,7 @@ class District(TrashableMixin):
     pickup_time = models.CharField(_("Pick up time"), max_length=255)
 
     def __str__(self):
-        return u'{0} {1} district for {2}'.format(self.name, self.get_district_type_display(),
+        return u'{0} district for {2}'.format(self.name, self.get_district_type_display(),
                                               self.municipality)
 
 

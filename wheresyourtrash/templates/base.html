@@ -1,4 +1,5 @@
 {% load static %}
+{% load google_analytics %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,97 +21,98 @@
 
     {# custom head js #}
     {% block head_js %}{% endblock %}
+    {% google_analytics %}
 
 </head>
 <body id="top" class="scrollspy" {% block body_attr %}{% endblock body_attr %}>
 
-<!-- pre loader -->
-<div id="loader-wrapper">
-    <div id="loader"></div>
- 
-    <div class="loader-section section-left"></div>
-    <div class="loader-section section-right"></div>
- 
-</div>
+    <!-- pre loader -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+     
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+     
+    </div>
 
-<!--navigation-->
- <div class="navbar-fixed">
-    {% block navigation %}
-    <nav id="nav_f" class="default_color" role="navigation">
-        <div class="container">
-            <div class="nav-wrapper"><a id="logo-container" href="/" class="brand-logo">where's your trash?!</a>
-            <ul id="nav-mobile" class="right side-nav">
-		{% if not request.user.is_authenticated %}
-                <li><a href="/#intro">how does this work?</a></li>
-                <li><a href="{% url 'account_signup' %}">signup</a></li>
-                <li><a href="{% url 'account_login' %}">login</a></li>
-		{% else %}
-                <li><a href="{% url 'notifications:municipality_list' %}">new subscription</a></li>
-                <li><a href="{% url 'notifications:subscription_list' %}">my subscriptions</a></li>
-		<li>
-                <form method="post" id="logout-form" action="{% url 'account_logout' %}">{% csrf_token %}
-                <a href="#" onclick="$('#logout-form').submit();">logout</a>
-		</form>
-		</li>
-		{% endif %}
-            </ul><a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+    <!--navigation-->
+     <div class="navbar-fixed">
+        {% block navigation %}
+        <nav id="nav_f" class="default_color" role="navigation">
+            <div class="container">
+                <div class="nav-wrapper"><a id="logo-container" href="/" class="brand-logo">where's your trash?!</a>
+                <ul id="nav-mobile" class="right side-nav">
+    		{% if not request.user.is_authenticated %}
+                    <li><a href="/#intro">how does this work?</a></li>
+                    <li><a href="{% url 'account_signup' %}">signup</a></li>
+                    <li><a href="{% url 'account_login' %}">login</a></li>
+    		{% else %}
+                    <li><a href="{% url 'notifications:municipality_list' %}">new subscription</a></li>
+                    <li><a href="{% url 'notifications:subscription_list' %}">my subscriptions</a></li>
+    		<li>
+                    <form method="post" id="logout-form" action="{% url 'account_logout' %}">{% csrf_token %}
+                    <a href="#" onclick="$('#logout-form').submit();">logout</a>
+    		</form>
+    		</li>
+    		{% endif %}
+                </ul><a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+        {% endblock %}
+    </div>
+    
+    <!--Hero-->
+    {% block banner %}
     {% endblock %}
-</div>
-
-<!--Hero-->
-{% block banner %}
-{% endblock %}
-
-<!--Intro and service-->
-<div id="intro" class="section scrollspy">
-    <div class="container">
-    {% block content %}
-    {% endblock %}
-    </div>
-</div>
-
-{% block secondary_content %}
-{% endblock %}
-
-<!--Footer-->
-<footer id="contact" class="page-footer default_color scrollspy">
-    <div class="container">  
-        <div class="row">
-            <div class="col l6 s12">
-            </div>
-            <div class="col l3 s12">
-                <h5 class="white-text">Code for Maine</h5>
-                <ul>
-                    <li><a class="white-text" href="http://www.codeformaine.org/blog">Blog</a></li>
-                </ul>
-            </div>
-            <div class="col l3 s12">
-                <h5 class="white-text">Social</h5>
-                <ul>
-                    <li>
-                        <a class="white-text" href="https://github.com/code4maine/wheresyourtrash">
-                            <i class="small fa fa-github-square white-text"></i> Github
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="footer-copyright default_color">
+    
+    <!--Intro and service-->
+    <div id="intro" class="section scrollspy">
         <div class="container">
-            Made by <a class="white-text"
-                href="http://github.com/code4maine">code for maine</a>. Thanks
-            to <a class="white-text"
-                href="http://materializecss.com/">materializecss</a> and <a
-                class="white-text"
-                href="http://joashpereira.com">joashpereira.com</a>. Trash icon
-            by parkjisun via <a class="white-text" href="https://thenounproject.com/term/garbage-bag/199035/">the Noun Project</a>
+        {% block content %}
+        {% endblock %}
         </div>
     </div>
-</footer>
+    
+    {% block secondary_content %}
+    {% endblock %}
+    
+    <!--Footer-->
+    <footer id="contact" class="page-footer default_color scrollspy">
+        <div class="container">  
+            <div class="row">
+                <div class="col l6 s12">
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Code for Maine</h5>
+                    <ul>
+                        <li><a class="white-text" href="http://www.codeformaine.org/blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Social</h5>
+                    <ul>
+                        <li>
+                            <a class="white-text" href="https://github.com/code4maine/wheresyourtrash">
+                                <i class="small fa fa-github-square white-text"></i> Github
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright default_color">
+            <div class="container">
+                Made by <a class="white-text"
+                    href="http://github.com/code4maine">code for maine</a>. Thanks
+                to <a class="white-text"
+                    href="http://materializecss.com/">materializecss</a> and <a
+                    class="white-text"
+                    href="http://joashpereira.com">joashpereira.com</a>. Trash icon
+                by parkjisun via <a class="white-text" href="https://thenounproject.com/term/garbage-bag/199035/">the Noun Project</a>
+            </div>
+        </div>
+    </footer>
 
 
     <!--  Scripts-->

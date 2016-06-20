@@ -64,6 +64,7 @@ class Common(Configuration):
         'rest_framework',
         'crispy_forms',
         'materializecssform',
+        'analytical',
 
 
         # Custom apps
@@ -108,6 +109,10 @@ class Common(Configuration):
         "django.contrib.staticfiles.finders.FileSystemFinder",
         "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     )
+
+    GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-79494669-1'
+    GOOGLE_ANALYTICS_SITE_SPEED = True
+    GOOGLE_ANALYTICS_ANONYMIZE_IP = True
 
     ACCOUNT_AUTHENTICATION_METHOD = "email"
     ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -175,11 +180,13 @@ class Common(Configuration):
     MEDIA_ROOT = os.path.join(PUBLIC_ROOT.setup('PUBLIC_ROOT'), 'media')
     MEDIA_URL = "/media/"
 
+
     AWS_ACCESS_KEY_ID = values.Value()
     AWS_SECRET_ACCESS_KEY = values.Value()
     AWS_STORAGE_BUCKET_NAME = values.Value('wheresyourtrash-media')
     AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
                    'Cache-Control': 'max-age=86400', }
+    MEDIA_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
