@@ -177,7 +177,7 @@ class Common(Configuration):
 
     AWS_ACCESS_KEY_ID = values.Value()
     AWS_SECRET_ACCESS_KEY = values.Value()
-    AWS_STORAGE_BUCKET_NAME = 'wheresyourtrash.com'
+    AWS_STORAGE_BUCKET_NAME = values.Value('wheresyourtrash-media')
     AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
                    'Cache-Control': 'max-age=86400', }
 
