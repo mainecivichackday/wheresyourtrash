@@ -19,7 +19,7 @@ class Common(Configuration):
     ADMINS = (
         ('Admin', 'colin.powell@gmail.com'),
     )
-    FROM_EMAIL = "Notification from Wheres's Your Trash <notifications@wheresyourtrash.com>"
+    DEFAULT_FROM_EMAIL = FROM_EMAIL = "Notification from Wheres's Your Trash <notifications@wheresyourtrash.com>"
 
     # You'll likely want to add your own auth model.
     AUTH_USER_MODEL = 'custom_user.EmailUser'

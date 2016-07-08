@@ -7,9 +7,11 @@ export DATABASE_URL="{{ django_database }}"
 
 export DJANGO_PUBLIC_ROOT="{{deployment_path}}/{{deployment_name}}/public"
 
-# AWS CONFIG
-export DJANGO_AWS_ACCESS_KEY_ID="{{ aws_access_key }}"
-export DJANGO_AWS_SECRET_ACCESS_KEY="{{ aws_secret_key }}"
+export DJANGO_EMAIL_HOST={{ email_host }}
+export DJANGO_EMAIL_HOST_USER={{ email_host_user }}
+export DJANGO_EMAIL_HOST_PASSWORD={{ email_host_password }}
+export DJANGO_EMAIL_PORT={{ email_host_port}}
+export DJANGO_EMAIL_USE_TLS=True
 
 # LOGGING CONFIG
 export DJANGO_LOG_LEVEL="{{ django_log_level }}"
