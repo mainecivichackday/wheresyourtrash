@@ -2,6 +2,11 @@ install:
 	virtualenv -p python3 venv
 	venv/bin/python setup.py install
 	venv/bin/python manage.py migrate --noinput
+	$(MAKE) deploy_deps
+
+deploy_deps:
+	virtualenv -p python2 .ansible-venv
+	.ansible-venv/bin/pip install ansible
 
 deps:
 	sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk libxslt-dev libxml2-dev redis-server
@@ -24,6 +29,12 @@ clean:
 	rm -rf build
 	rm -rf dist
 
+reset:
+	deactivate
+	$(MAKE) clean
+	rm -rf venv
+	rm -rf .ansible-venv
+
 run:
 	venv/bin/python manage.py runserver_plus 0.0.0.0:35000
 
@@ -44,3 +55,8 @@ release:
 	$(MAKE) tag-release
 	$(MAKE) package
 	$(MAKE) distribute
+
+deploy:
+	$(MAKE) deploy_deps
+	ansible-playbook -i ansible/hosts --limit prod --tags deploy --extra-vars '{"app_version":"$(v)"}' ansible/webapp.yml
+	ansible-playbook -i ansible/hosts --limit prod --tags deploy --extra-vars '{"app_version":"$(v)"}' ansible/workers.yml

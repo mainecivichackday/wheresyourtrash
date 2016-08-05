@@ -68,3 +68,4 @@ venv
 public
 celerybeat-schedule
 www.wheresyourtrash.com
+.ansible-venv
