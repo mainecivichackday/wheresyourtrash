@@ -1,8 +1,7 @@
 install:
-	virtualenv -p /usr/bin/python3 venv
+	virtualenv -p python3 venv
 	venv/bin/python setup.py install
 	venv/bin/python manage.py migrate --noinput
-
 
 deps:
 	sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk libxslt-dev libxml2-dev redis-server
@@ -10,18 +9,23 @@ deps:
 	
 
 deps_mac:
-	brew install libtiff libjpeg webp little-cms2 redis
+	brew install libtiff libjpeg webp little-cms2 redis-server
+	npm install bower
 
+deps_freebsd:
+	sudo pkg install jpeg tiff webp lcms2 freetype2 redis-server
 
 test:
 	rm -rf .tox
 	detox
 
 clean:
-	rm -rf venv
+	rm -rf *.egg-info
+	rm -rf build
+	rm -rf dist
 
 run:
-	venv/bin/python manage.py runserver_plus 0.0.0.0:45000
+	venv/bin/python manage.py runserver_plus 0.0.0.0:35000
 
 tag-release:
 	sed -i "/__version__/c\__version__ = '$(v)'" wheresyourtrash/__init__.py
