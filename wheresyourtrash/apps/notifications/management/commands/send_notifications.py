@@ -16,7 +16,7 @@ class Command(BaseCommand):
         # Gather all subscriptions that need to go out
         #subs = Subscription.objects.live()
         for sub in Subscription.objects.all():
-            if sub.day_before_pickup:
+            if sub.day_of_pickup:
                 logger.info('Sending notification to {0}'.format(sub.user))
                 pickup_type = sub.district.district_type.lower() # + '_notification'
                 if sub.subscription_type == 'SMS':
@@ -28,7 +28,7 @@ class Command(BaseCommand):
                     pickup_str = 'trash'
                 else:
                     pickup_str = 'recycling'
-                txt_content = 'Is your {0} outside and ready? The folks from {1} are going to be by tomorrow!'.format(pickup_str, sub.district.municipality.name)
+                txt_content = 'Is your {0} outside and ready? The folks from {1} are going to be picking it up later today!!'.format(pickup_str, sub.district.municipality.name)
                 email = EmailMessage("Where's Your Trash?", txt_content, FROM_EMAIL, [recipient])
                 email.send()
 
