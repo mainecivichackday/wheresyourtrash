@@ -2,9 +2,8 @@
 # Launch script
 - hosts: all
   gather_facts: False
-  user: ubuntu
+  user: root
   become: True
   roles:
     - role: common
-    - role: postgresql
     - role: celery 
