@@ -18,7 +18,7 @@ deps_mac:
 	npm install bower
 
 deps_freebsd:
-	sudo pkg install jpeg tiff webp lcms2 freetype2 redis-server
+	sudo pkg install jpeg tiff webp lcms2 freetype2 redis
 
 test:
 	rm -rf .tox
