@@ -6,5 +6,4 @@
   become: True
   roles:
     - role: common
-    - role: postgresql
     - role: celery 
