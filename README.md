@@ -37,5 +37,8 @@ from your docker-config directory:
 
 `docker-compose up -d --build && docker-compose logs -f`
 
+###get yourself an admin user:
+`docker exec -it wheresyourtrash_django-wyt_1 python /usr/local/lib/python2.7/dist-packages/wheresyourtrash/manage_wheresyourtrash.py createsuperuser`
+
 access via (http://<hostname>:8000)
 for admin functions, add /admin to the end of the URL (http://<hostname>:8000/admin)
