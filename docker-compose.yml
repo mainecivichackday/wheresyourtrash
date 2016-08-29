@@ -6,7 +6,7 @@ services:
    ports:
     - 8000:8000
    network_mode: bridge
-#   restart: always
+    restart: always
    environment:
     - DJANGO_SECRET_KEY='notasecret'
     - DJANGO_PUBLIC_ROOT='/public'
