@@ -1,50 +1,47 @@
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import sys
+import os
 
 version = __import__('wheresyourtrash').__version__
 
-install_requires = [
-    'setuptools>=18.0.1',
-    'Django>=1.9,<1.10',
-    'django_configurations>=1.0',
-    'python-dateutil>=2.5.2',
-    'dj-database-url>=0.3.0',
-    'pylibmc>=1.5.0',
-    'Pillow>=2.0.0',
-    'django-cache-url>=0.8.0',
-    'werkzeug>=0.9.4',
-    'gunicorn>=0.17.4',
-    'easy-thumbnails>=1.2',
-    'whitenoise>=3.2',
-    'django-debug-toolbar>=1.4',
-    'django-extensions>=1.6.1',
-    'django-braces>=1.4.0',
-    'django-localflavor>=1.1',
-    'django-allauth>=0.24.1',
-    'django-floppyforms>=1.6.1',
-    'django-custom-user>=0.6',
-    'django-nose>=1.4.1',
-    'django-materializecss-form>=1.0.1',
-    'django-analytical>=2.2',
-    'raven>=5.2.0',
-    'factory_boy>=2.5.1',
-    'boto>=2.39.0',
-    'celery[redis]>=3.1.23',
-    'django-storages>=1.1.8',
-    'djangorestframework>=3.3.2',
-    'django-cors-headers>=1.1.0',
-    'markdown>=2.6.1',
-    'django-filter>=0.9.2',
-    'django-templated-email>=0.4.9',
-    'psycopg2>=2.5',
-    'parsedatetime>=2.1',
-    'django_crispy_forms',
-]
+def strip_comments(l):
+    return l.split('#', 1)[0].strip()
 
-# App specific libraries
-install_requires += [
-]
+
+def _pip_requirement(req):
+    if req.startswith('-r '):
+        _, path = req.split()
+        return reqs(*path.split('/'))
+    return [req]
+
+
+def _reqs(*f):
+    return [
+        _pip_requirement(r) for r in (
+            strip_comments(l) for l in open(
+                os.path.join(os.getcwd(), 'requirements', *f)).readlines()
+        ) if r]
+
+
+def reqs(*f):
+    return [req for subreq in _reqs(*f) for req in subreq]
+
+install_requires = []
+install_requires = reqs('default.txt')
+
+
+# -*- Extras -*-
+extra = {}
+
+def extras(*p):
+    return reqs('extras', *p)
+
+features = set(['postgres', 'mysql', 's3', 'memcached'])
+extras_require = dict((x, extras(x + '.txt')) for x in features)
+extra['extras_require'] = extras_require
+
+# -*- %%% -*-
 
 dep_links = [
 ]
@@ -73,10 +70,13 @@ setup(
     author_email='colin.powell@gmail.com',
     packages=find_packages(),
     install_requires=install_requires,
+    tests_require=reqs('test.txt'),
+    extras_require=dict((x, extras(x + '.txt')) for x in set([
+        'mysql', 'postgres', 's3', 'memcached'
+    ])),
     dependency_links=dep_links,
     include_package_data=True,
     zip_safe=False,
-    tests_require=['tox'],
     cmdclass={'test': Tox},
     classifiers=[
         'Development Status :: 4 - Beta',
