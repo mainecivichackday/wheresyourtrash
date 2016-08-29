@@ -19,3 +19,5 @@ if settings.DEBUG:
             {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}))
     urlpatterns.append(
         url(r'^__debug__/', include(debug_toolbar.urls)))
+    urlpatterns.append(
+        url(r'^static/(?P<path>.*)$',serve,{'document_root': settings.STATIC_ROOT}))
