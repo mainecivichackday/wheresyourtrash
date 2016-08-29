@@ -26,3 +26,13 @@ Powered by the ubiquitous Makefile ... this should be pretty easy:
 3. make run
 4. open your browser to: http://127.0.0.1:45000
 
+#Docker friendly!
+-------------------
+
+from your docker-config directory:
+
+`git clone https://github.com/mainecivichackday/wheresyourtrash.git`
+`cd wheresyourtrash`
+`docker-compose up -d --build && docker-compose logs -f`
+
+access via (http://<hostname>:8000)
