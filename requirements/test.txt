@@ -1,0 +1,3 @@
+tox
+factory_boy
+django-nose

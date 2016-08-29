@@ -30,7 +30,6 @@ clean:
 	rm -rf dist
 
 reset:
-	deactivate
 	$(MAKE) clean
 	rm -rf venv
 	rm -rf .ansible-venv
