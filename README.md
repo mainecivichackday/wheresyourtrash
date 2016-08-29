@@ -16,7 +16,7 @@ Confusion no more! Enter your phone number or email address here, tell us where
 you live in the city and we'll send you a notification first thing in the
 morning when it's time to disgard your disgardables.
 
-Easy bootstrapping!
+#Easy bootstrapping!
 -------------------
 
 Powered by the ubiquitous Makefile ... this should be pretty easy:
@@ -36,3 +36,4 @@ from your docker-config directory:
 `docker-compose up -d --build && docker-compose logs -f`
 
 access via (http://<hostname>:8000)
+for admin functions, add /admin to the end of the URL (http://<hostname>:8000/admin)
