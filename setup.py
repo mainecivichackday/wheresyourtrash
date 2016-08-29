@@ -91,6 +91,7 @@ setup(
     package_dir={
         'wheresyourtrash': 'wheresyourtrash',
         'wheresyourtrash/templates': 'wheresyourtrash/templates',
+        'wheresyourtrash/requirements': 'wheresyourtrash/requirements',
     },
     entry_points={
         'console_scripts': [

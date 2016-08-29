@@ -2,7 +2,6 @@ install:
 	virtualenv -p python3 venv
 	venv/bin/python setup.py install
 	venv/bin/python manage.py migrate --noinput
-	$(MAKE) deploy_deps
 
 deploy_deps:
 	virtualenv -p python2 .ansible-venv
