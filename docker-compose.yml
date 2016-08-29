@@ -9,10 +9,10 @@ services:
 #   restart: always
    environment:
     - DJANGO_SECRET_KEY='notasecret'
+    - DJANGO_PUBLIC_ROOT='/public'
     - TERM=xterm
    entrypoint: /entrypoint.sh
    volumes:
     - ./entrypoint.sh:/entrypoint.sh
-    - ./wheresyourtrash:/usr/local/lib/python3.4/dist-packages/wheresyourtrash
-#    - ./wheresyourtrash/static:/static_root
+    - ./wheresyourtrash/static:/public
     - ./public:/public

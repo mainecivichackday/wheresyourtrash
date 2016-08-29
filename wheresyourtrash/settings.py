@@ -10,6 +10,11 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import sys
 
+# Used to check for various optional packages (boto, psycopg2, etc...)
+import pip
+packages=[package.project_name for package in pip.get_installed_distributions()]
+
+
 from configurations import Configuration, values
 from celery.schedules import crontab
 
@@ -191,7 +196,8 @@ class Common(Configuration):
                    'Cache-Control': 'max-age=86400', }
     MEDIA_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    if 'boto' in packages:
+        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
     # Account activations automatically expire after this period
     ACCOUNT_ACTIVATION_DAYS = 14
@@ -248,7 +254,8 @@ class Dev(Common):
     EMAIL_USE_TLS = values.BooleanValue(False)
 
 
-    INSTALLED_APPS = Common.INSTALLED_APPS + ('debug_toolbar',)
+    if 'django_debug_toolbar' in packages:
+        INSTALLED_APPS = Common.INSTALLED_APPS + ('debug_toolbar',)
 
 
 class Stage(Common):
@@ -278,12 +285,11 @@ class Prod(Common):
     EMAIL_PORT = values.Value()
     EMAIL_USE_TLS = values.BooleanValue(True)
 
-    DSN_VALUE = values.Value()
-
-    # If we're on production, connect to Sentry
-    RAVEN_CONFIG = {
-        'dsn': DSN_VALUE.setup('DSN_VALUE'),
-    }
-
-    INSTALLED_APPS = Common.INSTALLED_APPS + (
-        'raven.contrib.django.raven_compat',)
+    if 'raven' in packages:
+        # Setup raven and Sentry if we have raven installed
+        DSN_VALUE = values.Value()
+        RAVEN_CONFIG = {
+            'dsn': DSN_VALUE.setup('DSN_VALUE'),
+        }
+        INSTALLED_APPS = Common.INSTALLED_APPS + (
+            'raven.contrib.django.raven_compat',)
