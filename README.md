@@ -32,7 +32,9 @@ Powered by the ubiquitous Makefile ... this should be pretty easy:
 from your docker-config directory:
 
 `git clone https://github.com/mainecivichackday/wheresyourtrash.git`
+
 `cd wheresyourtrash`
+
 `docker-compose up -d --build && docker-compose logs -f`
 
 access via (http://<hostname>:8000)
