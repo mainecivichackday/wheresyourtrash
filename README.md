@@ -29,7 +29,7 @@ Powered by the ubiquitous Makefile ... this should be pretty easy:
 #Docker friendly!
 -------------------
 
-from your docker-config directory:
+###from your docker-config directory:
 
 `git clone https://github.com/mainecivichackday/wheresyourtrash.git`
 
