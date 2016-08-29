@@ -1,16 +1,4 @@
 FROM ubuntu:14.04
 MAINTAINER Colin Powell "colin.powell@gmail.com"
-RUN apt-get -qq update
-RUN apt-get install -y python-dev python-setuptools git
-RUN easy_install pip
-RUN pip install virtualenv
-RUN pip install uwsgi
-RUN virtualenv --no-site-packages /opt/ve/wheresyourtrash
-ADD . /opt/apps/wheresyourtrash
-ADD etc/gunicorn.conf /opt/gunicorn_wheresyourtrash.conf
-ADD etc/run.sh /usr/local/bin/run_wheresyourtrash
-RUN (cd /opt/apps/wheresyourtrash && git remote rm origin)
-RUN (cd /opt/apps/wheresyourtrash && git remote add origin https://github.com/powellc/wheresyourtrash.git)
-RUN (cd /opt/apps/wheresyourtrash && python setup.py install)
-EXPOSE 30321
-CMD ["/bin/sh", "-e", "/usr/local/bin/run_wheresyourtrash"]
+RUN apt-get -qq update && apt-get install -y comerr-dev krb5-multidev libgssrpc4 libkadm5clnt-mit9 libkadm5srv-mit9 libkdb5-7 libpq-dev libpq5 libssl-dev libssl-doc zlib1g-dev postgresql libpq-dev libmemcached-dev python-dev python-setuptools git && easy_install pip && pip install wheresyourtrash virtualenv uwsgi pylibmc && virtualenv --no-site-packages /opt/ve/wheresyourtrash
+EXPOSE 8000

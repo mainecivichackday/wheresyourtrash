@@ -1,0 +1,17 @@
+version: '2'
+services:
+  django-wyt:
+   build: .
+   image: wyt-dev
+   ports:
+    - 8000:8000
+   network_mode: bridge
+#   restart: always
+   environment:
+    - DJANGO_SECRET_KEY='notasecret'
+    - TERM=xterm
+   entrypoint: /entrypoint.sh
+   volumes:
+    - ./entrypoint.sh:/entrypoint.sh
+    - ./wheresyourtrash:/usr/local/lib/python2.7/dist-packages/wheresyourtrash
+
