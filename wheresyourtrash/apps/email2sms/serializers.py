@@ -1,12 +1,11 @@
-import models
-
 from rest_framework import serializers
 
+from email2sms.models import Provider
 
 class ProviderSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Provider
+        model = Provider
         fields = (
             'slug', 
             'name', 

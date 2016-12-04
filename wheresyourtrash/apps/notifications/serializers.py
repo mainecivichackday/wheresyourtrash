@@ -33,6 +33,7 @@ class DistrictSerializer(serializers.ModelSerializer):
             'trashed', 
             'district_type', 
             'pickup_time', 
+            'municipality',
         )
 
 
@@ -57,13 +58,11 @@ class AddressBlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AddressBlock
         fields = (
-            'slug', 
             'id', 
-            'name', 
             'created', 
             'updated', 
-            'trashed', 
             'address_range', 
+            'district',
             'street', 
         )
 
