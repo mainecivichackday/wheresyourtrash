@@ -55,9 +55,9 @@ class Common(Configuration):
         "django.contrib.sessions",
         "django.contrib.sites",
         "django.contrib.sitemaps",
-        #'whitenoise.runserver_nostatic',
-        "django.contrib.staticfiles",
+        #"django.contrib.staticfiles",
 
+        'rest_framework',
         'custom_user',
         'allauth',
         'allauth.account',
@@ -66,7 +66,6 @@ class Common(Configuration):
         'allauth.socialaccount.providers.google',
         "django_extensions",
         'floppyforms',
-        'rest_framework',
         'crispy_forms',
         'materializecssform',
         'analytical',
@@ -107,7 +106,6 @@ class Common(Configuration):
         "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        #'whitenoise.middleware.WhiteNoiseMiddleware',
     )
 
     STATICFILES_FINDERS = (
@@ -178,26 +176,22 @@ class Common(Configuration):
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/1.9/howto/static-files/
-    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static/')
     STATIC_URL = '/static/'
 
-    # Extra places for collectstatic to find static files.
-    #STATICFILES_DIRS = (
-    #    os.path.join(PROJECT_ROOT, 'static'),
-    #)
-
-    MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+    MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/')
     MEDIA_URL = "/media/"
 
+    USE_AWS = values.BooleanValue(False)
     AWS_ACCESS_KEY_ID = values.Value()
-    AWS_SECRET_ACCESS_KEY = values.Value()
+    AWS_SECRET_ACCESS_KEY = values.Value('wheresyourtrash')
     AWS_STORAGE_BUCKET_NAME = values.Value('wheresyourtrash-media')
     AWS_HEADERS = {'ExpiresDefault': 'access plus 30 days',
                    'Cache-Control': 'max-age=86400', }
-    MEDIA_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 
-    if 'boto' in packages:
+    if 'boto' in packages and USE_AWS:
         DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+        MEDIA_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 
     # Account activations automatically expire after this period
     ACCOUNT_ACTIVATION_DAYS = 14
@@ -216,24 +210,23 @@ class Common(Configuration):
     # the site admins on every HTTP 500 error when DEBUG=False.
     # See http://docs.djangoproject.com/en/dev/topics/logging for
     # more details on how to customize your logging configuration.
-#    LOGGING = {
-#        'version': 1,
-#        'disable_existing_loggers': False,
-#        'handlers': {
-#            'mail_admins': {
-#                'level': 'ERROR',
-#                'class': 'django.utils.log.AdminEmailHandler'
-#            }
-#        },
-#        'loggers': {
-#            'django.request': {
-#                'handlers': ['mail_admins'],
-#                'level': 'ERROR',
-#                'propagate': True,
-#            },
-#        }
-#    }
-
+    #LOGGING = {
+    #    'version': 1,
+    #    'disable_existing_loggers': False,
+    #    'handlers': {
+    #        'mail_admins': {
+    #            'level': 'ERROR',
+    #            'class': 'django.utils.log.AdminEmailHandler'
+    #        }
+    #    },
+    #    'loggers': {
+    #        'django.request': {
+    #            'handlers': ['mail_admins'],
+    #            'level': 'ERROR',
+    #            'propagate': True,
+    #        },
+    #    }
+    #}
 
 
 class Dev(Common):
@@ -277,7 +270,6 @@ class Prod(Common):
     DEBUG = False
 
     SECRET_KEY = values.SecretValue()
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
     EMAIL_HOST = values.Value()
     EMAIL_HOST_USER = values.Value()
@@ -285,6 +277,11 @@ class Prod(Common):
     EMAIL_PORT = values.Value()
     EMAIL_USE_TLS = values.BooleanValue(True)
 
+    if 'whitenoise' in packages:
+        STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+        INSTALLED_APPS = Common.INSTALLED_APPS + (
+            'whitenoise.runserver_nostatic',
+        )
     if 'raven' in packages:
         # Setup raven and Sentry if we have raven installed
         DSN_VALUE = values.Value()
