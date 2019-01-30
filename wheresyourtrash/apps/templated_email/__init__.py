@@ -2,7 +2,7 @@ from django.conf import settings
 from importlib import import_module
 from django.core.exceptions import ImproperlyConfigured
 from templated_email.backends.vanilla_django import TemplateBackend
-from setuptools.compat import basestring
+#from setuptools.compat import basestring
 
 
 def get_connection(backend=None, template_prefix=None, template_suffix=None,

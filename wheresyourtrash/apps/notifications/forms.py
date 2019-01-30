@@ -29,7 +29,10 @@ class AddressBlockForm(forms.ModelForm):
 
 
 class SubscriptionForm(forms.ModelForm):
-    service_provider = forms.ModelChoiceField(queryset=Provider.objects.all(), label="Mobile phone service provider", required=False)
+    service_provider = forms.ModelChoiceField(
+        queryset=Provider.objects.all(),
+        label="Mobile phone service provider", required=False
+    )
     subscription_type = forms.ChoiceField(choices=SUB_TYPES, widget=forms.RadioSelect())
     user = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput())
 

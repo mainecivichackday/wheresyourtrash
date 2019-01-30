@@ -13,7 +13,7 @@ deps:
 	
 
 deps_mac:
-	brew install libtiff libjpeg webp little-cms2 redis-server
+	brew install libtiff libjpeg webp little-cms2 redis
 	npm install bower
 
 deps_freebsd:

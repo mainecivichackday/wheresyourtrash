@@ -1,9 +1,12 @@
 from django.contrib import messages
-from django.views.generic import DetailView, ListView, UpdateView, CreateView, TemplateView
 from django.core.urlresolvers import reverse
+from django.views.generic import (DetailView, ListView, UpdateView, CreateView,
+                                  TemplateView)
 
-from .models import Municipality, District, DistrictExceptions, AddressBlock, Subscription
-from .forms import MunicipalityForm, DistrictForm, DistrictExceptionsForm, AddressBlockForm, SubscriptionForm
+from .models import (Municipality, District, DistrictExceptions, AddressBlock,
+                     Subscription)
+from .forms import (MunicipalityForm, DistrictForm, DistrictExceptionsForm,
+                    AddressBlockForm, SubscriptionForm)
 
 from braces.views import LoginRequiredMixin
 
@@ -32,6 +35,17 @@ class MunicipalityDetailView(DetailView):
 class MunicipalityUpdateView(UpdateView):
     model = Municipality
     form_class = MunicipalityForm
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+            return Municipality.objects.filter(contacts=self.request.user)
+        else:
+            return Municipality.objects.none()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MunicipalityUpdateView, self).get_context_data(*args, **kwargs)
+        context['exception_forms'] = DistrictExceptionsForm
+        return context
 
 
 class DistrictListView(ListView):

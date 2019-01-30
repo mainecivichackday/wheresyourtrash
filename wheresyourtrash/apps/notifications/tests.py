@@ -2,14 +2,13 @@ import unittest
 from django.core.urlresolvers import reverse
 from django.test import Client
 from .models import Municipality, District, DistrictExceptions, AddressBlock, Subscription
-from django.contrib.auth.models import User
+from custom_user.models import EmailUser as User
 from django.contrib.auth.models import Group
 from django.contrib.contenttypes.models import ContentType
 
 
-def create_django_contrib_auth_models_user(**kwargs):
+def create_user(**kwargs):
     defaults = {}
-    defaults["username"] = "username"
     defaults["email"] = "username@tempurl.com"
     defaults.update(**kwargs)
     return User.objects.create(**defaults)
@@ -154,6 +153,7 @@ class DistrictViewTest(unittest.TestCase):
     '''
     def setUp(self):
         self.client = Client()
+        self.user = create_user(email='district@test.com')
 
     def test_list_district(self):
         url = reverse('notifications:district_list')
@@ -202,6 +202,7 @@ class DistrictExceptionsViewTest(unittest.TestCase):
     '''
     def setUp(self):
         self.client = Client()
+        self.user = create_user(email='except@test.com')
 
     def test_list_districtexceptions(self):
         url = reverse('notifications:districtexceptions_list')
@@ -250,6 +251,7 @@ class AddressBlockViewTest(unittest.TestCase):
     '''
     def setUp(self):
         self.client = Client()
+        self.user = create_user(email='address@test.com')
 
     def test_list_addressblock(self):
         url = reverse('notifications:addressblock_list')
@@ -298,6 +300,7 @@ class SubscriptionViewTest(unittest.TestCase):
     '''
     def setUp(self):
         self.client = Client()
+        self.user = create_user(email='sub@test.com')
 
     def test_list_subscription(self):
         url = reverse('notifications:subscription_list')
@@ -312,7 +315,7 @@ class SubscriptionViewTest(unittest.TestCase):
             "updated": "updated",
             "trashed": "trashed",
             "subscription_type": "subscription_type",
-            "user": create_user().id,
+            "user": self.user.id,
         }
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, 302)
@@ -331,7 +334,7 @@ class SubscriptionViewTest(unittest.TestCase):
             "updated": "updated",
             "trashed": "trashed",
             "subscription_type": "subscription_type",
-            "user": create_user().id,
+            "user": self.user.id,
         }
         url = reverse('notifications:subscription_update', args=[subscription.slug,])
         response = self.client.post(url, data)
